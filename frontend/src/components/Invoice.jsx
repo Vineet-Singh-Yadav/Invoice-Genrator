@@ -39,8 +39,8 @@ export default function Invoice() {
 
 
   function handleShare(inv, e) {
-    e.stopPropagation();// prevents opening preview
-    const encodedId = encodeURIComponent(inv.invoiceNumber);// to make it collective in url not seprated by "/"
+    e.stopPropagation();
+    const encodedId = encodeURIComponent(inv.invoiceNumber);
     const shareUrl = `${window.location.origin}/invoice/${encodedId}`;
     navigator.clipboard.writeText(shareUrl);
     alert("Invoice link copied!");

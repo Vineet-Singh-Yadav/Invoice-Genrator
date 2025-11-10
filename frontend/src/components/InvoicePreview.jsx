@@ -9,22 +9,21 @@ import html2canvas from 'html2canvas';
 
 export default function InvoicePreview() {
   const location = useLocation();
-  // const invoicePreview = location.state?.invoice;  this work for the data coming from genrate invoice but to use url fetch we also want the functinality to set it here than we discribe it in usestate
   const [invoicePreview, setInvoicePreview] = useState(location.state?.invoice || null);
-
-
   const { fetchOwnerDetails, ownerPreview } = useContext(InvoiceContext);//contextApi
-
   const invoiceRef = useRef();
+  const { invNum } = useParams();
+  const decodedId = invNum ? decodeURIComponent(invNum) : null;
 
-  //for the invoice which directly come from the url they don't have any data so we have to fetch first 
-  const { invNum } = useParams();//to get invoice number from url
-  const decodedId = invNum? decodeURIComponent(invNum): null;// we done this because invoice number is like INV/125/230 than by"/" this url take tham diffrent
+  const { invoiceNumber, business_name, gst, address, email, phone, items, sub_total, total_discount, total_gst, grand_total, createdAt } = invoicePreview;
+  const { business } = ownerPreview;
+  const date = new Date(createdAt).toLocaleDateString();
+
   async function fetchInvoice() {
     try {
       const encodedId = encodeURIComponent(decodedId);
-      const response = await fetch(`http://localhost:3000/invoice/getInvoice/${encodedId}`,{
-        method:"GET"
+      const response = await fetch(`http://localhost:3000/invoice/getInvoice/${encodedId}`, {
+        method: "GET"
       });
       const json = await response.json();
 
@@ -41,7 +40,6 @@ export default function InvoicePreview() {
   useEffect(() => {
     fetchOwnerDetails();
 
-    //this will work only when we don't have invoice Preview and have invoice id in url
     if (!invoicePreview && invNum) {
       fetchInvoice();
     }
@@ -52,12 +50,6 @@ export default function InvoicePreview() {
     return <p>Loading invoice...</p>;
   }
 
-
-  const { invoiceNumber, business_name, gst, address, email, phone, items, sub_total, total_discount, total_gst, grand_total, createdAt } = invoicePreview;
-  const { business } = ownerPreview;
-  const date = new Date(createdAt).toLocaleDateString();
-
-  //for making pdf
   const downloadPDF = () => {
     const input = invoiceRef.current;
     html2canvas(input, { scale: 2, useCORS: true }).then((canvas) => {
@@ -76,7 +68,7 @@ export default function InvoicePreview() {
     const encodedId = encodeURIComponent(invoiceNumber);
     const shareUrl = `${window.location.origin}/invoice/${encodedId}`;
     navigator.clipboard.writeText(shareUrl);
-    alert("✅ Shareable link copied!");
+    alert(" Shareable link copied!");
   };
 
   return (
@@ -86,7 +78,7 @@ export default function InvoicePreview() {
         <button onClick={downloadPDF} className="btn btn-primary">
           Download Invoice
         </button>
-         <button onClick={shareInvoice} className="btn btn-secondary" style={{ marginLeft: '10px' }}>Copy Share Link</button>
+        <button onClick={shareInvoice} className="btn btn-secondary" style={{ marginLeft: '10px' }}>Copy Share Link</button>
       </div>
 
       <div className='prv-inv' ref={invoiceRef}>
@@ -115,7 +107,6 @@ export default function InvoicePreview() {
             <div className='inv-owr-name'>
               <span>{business}</span>
               <p>GSTIN : {ownerPreview?.gst?.toUpperCase() || "-"}</p>
-              {/*we have check the avilablity because at first before using fetchOwner  because it is a async function the gst no. of ownerPreview is undefined and toUpperCase try to uppercase teh undefined and app get crash  */}
             </div>
             <div className='para-div'>
               <div className='inv-ctm-name'>

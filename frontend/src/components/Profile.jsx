@@ -60,16 +60,8 @@ export default function Profile() {
           <label htmlFor="email"><i className="bi bi-envelope"></i> Email Address</label>
           <input type="email" placeholder='Enter your email' name='email' onChange={handleChange} required/>
            
-          {/* <div className='pro-last'>
-          <div> */}
           <label htmlFor="phone"><i className="bi bi-telephone"></i> Phone</label>
           <input type="tel" maxLength={10} name='phone' placeholder='Enter your phone number' onChange={handleChange} required />
-           {/* </div>
-           <div>
-          <label htmlFor="logo"><i className="bi bi-browser-edge"></i> Logo</label>
-          <input type="file" name='logo'/>
-          </div>
-          </div> */}
 
         </div>
         <div className='btn-div'>

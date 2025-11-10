@@ -91,66 +91,6 @@ router.get("/getUser", [authVerify], async (req, res) => {
 });
 
 
-// router.post("/updateUserInfo", [authVerify], [
-//   body("name").notEmpty().withMessage("Name is required"),
-//   body("email").isEmail().withMessage("Enter a valid email"),
-// ], async (req, res) => {
-
-//   const error = validationResult(req);
-//   if (!error.isEmpty()) { return res.json({ error: error.array() }) };
-
-//   try {
-//     const userId = req.user.id;
-
-//     let user = await User.findById({ _id: userId });
-//     if (!user) { return res.json("User not find") };
-
-//     const existingEmail = await User.findOne({ email: req.body.email });
-//     if (existingEmail && existingEmail._id.toString() !== userId) { return res.json("User with this email already exists") };
-
-//     user = await User.findByIdAndUpdate({ _id: userId }, {
-//       name: req.body.name,
-//       email: req.body.email,
-//     },
-//       { new: true });
-
-//     const safeUser = user.toObject();
-//     delete safeUser.password;
-//     res.json(safeUser);
-
-//   } catch (error) {
-//     console.log(error.message);
-//     res.json("Internal Server Error");
-//   }
-// });
-
-// router.post("/updatePassword", [authVerify],
-//   [body("password").isLength({ min: 6 }).withMessage("Password must be at least 6 characters")],
-//   async (req, res) => {
-//     const error = validationResult(req);
-//     if (!error.isEmpty()) { return res.json({ error: error.array() }) };
-
-//     try {
-//       const userId = req.user.id;
-
-//       let user = await User.findById( userId );
-//       if (!user) { return res.json("User not found") };
-
-//       const salt = await bcrypt.genSalt(10);
-//       const newPassword = await bcrypt.hash(req.body.password, salt);
-
-//       await User.findByIdAndUpdate(userId, 
-//         { password: newPassword }
-//       );
-
-//       res.json("Password Updated Successfully");
-//     } catch (error) {
-//       console.log(error.message);
-//       res.json("Internal Server Error");
-//     }
-//   })
-
-// ------------------ UPDATE USER INFO ------------------
 router.post(
   "/updateUserInfo",
   [
@@ -168,19 +108,16 @@ router.post(
     try {
       const userId = req.user.id;
 
-      // 1️⃣ Check if user exists
       let user = await User.findById(userId);
       if (!user) {
         return res.status(404).json({ success, message: "User not found" });
       }
 
-      // 2️⃣ Check if new email already exists
       const existingEmail = await User.findOne({ email: req.body.email });
       if (existingEmail && existingEmail._id.toString() !== userId) {
         return res.status(400).json({ success, message: "Email already in use" });
       }
 
-      // 3️⃣ Update user
       user = await User.findByIdAndUpdate(
         userId,
         { name: req.body.name, email: req.body.email },
@@ -199,7 +136,6 @@ router.post(
   }
 );
 
-// ------------------ UPDATE PASSWORD ------------------
 router.post(
   "/updatePassword",
   [
@@ -218,19 +154,16 @@ router.post(
     try {
       const userId = req.user.id;
 
-      // 1️⃣ Find user
       let user = await User.findById(userId);
       if (!user) {
         return res.status(404).json({ success, message: "User not found" });
       }
 
-      // 2️⃣ Compare old password (make sure frontend sends oldPassword)
       const isMatch = await bcrypt.compare(req.body.oldPassword, user.password);
       if (!isMatch) {
         return res.status(400).json({ success, message: "Old password is incorrect" });
       }
 
-      // 3️⃣ Hash and update new password
       const salt = await bcrypt.genSalt(10);
       const newPassword = await bcrypt.hash(req.body.password, salt);
       await User.findByIdAndUpdate(userId, { password: newPassword });

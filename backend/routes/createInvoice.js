@@ -34,7 +34,7 @@ router.post("/createInvoice", [authVerify], async (req, res) => {
         const grand_total = sub_total - total_discount + total_gst;
 
         const newInvoice = await Invoice.create({
-            userId: req.user.id, 
+            userId: req.user.id,
             invoiceNumber,
             business_name,
             gst,
@@ -48,14 +48,14 @@ router.post("/createInvoice", [authVerify], async (req, res) => {
             grand_total
         });
 
-        res.status(201).json({ success: true, invoice: newInvoice , message : "Invoice created" });
+        res.status(201).json({ success: true, invoice: newInvoice, message: "Invoice created" });
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, message: error.message });
     }
 });
 
-router.get("/fetchInvoice",[authVerify], async(req, res)=>{
+router.get("/fetchInvoice", [authVerify], async (req, res) => {
     try {
         const userId = req.user.id;
 
@@ -74,19 +74,19 @@ router.get("/fetchInvoice",[authVerify], async(req, res)=>{
 
 
 router.get("/getInvoice/:invoiceNumber", async (req, res) => {
-  try {
-    const { invoiceNumber } = req.params;// we desturcure because it give the key value pair so to take only value
-    const decodedInvoiceNumber = decodeURIComponent(invoiceNumber); // ✅ decode
-    const invoice = await Invoice.findOne({ invoiceNumber: decodedInvoiceNumber });
+    try {
+        const { invoiceNumber } = req.params;
+        const decodedInvoiceNumber = decodeURIComponent(invoiceNumber);
+        const invoice = await Invoice.findOne({ invoiceNumber: decodedInvoiceNumber });
 
-    if (!invoice) {
-      return res.status(404).json({ success: false, message: "Invoice not found" });
+        if (!invoice) {
+            return res.status(404).json({ success: false, message: "Invoice not found" });
+        }
+
+        res.status(200).json({ success: true, invoice });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
     }
-
-    res.status(200).json({ success: true,invoice });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
 });
 
 export default router;

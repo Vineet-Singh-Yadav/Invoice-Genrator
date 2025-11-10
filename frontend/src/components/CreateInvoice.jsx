@@ -7,6 +7,7 @@ export default function CreateInvoice({ setIsActive }) {
   const token = localStorage.getItem('token');
   const [showItem, setShowItem] = useState([]);
   const navigate = useNavigate();
+  const [suggestion, setSuggestion] = useState([]);
 
   async function fetchItems() {
     try {
@@ -34,7 +35,7 @@ export default function CreateInvoice({ setIsActive }) {
     fetchItems();
   }, [])
 
-  //manual filling
+
   const [customer, setCustomer] = useState({
     business_name: "",
     gst: "",
@@ -71,8 +72,7 @@ export default function CreateInvoice({ setIsActive }) {
     setCustomer({ ...customer, [e.target.name]: e.target.value });
   }
 
-  //suggestion logic
-  const [suggestion, setSuggestion] = useState([]);
+
 
   function handleChangeItem(e, index) {
     const updatedItem = customer.items.map((item, i) => {
@@ -83,18 +83,15 @@ export default function CreateInvoice({ setIsActive }) {
 
     setCustomer({ ...customer, items: updatedItem });
 
-    //to take the index and value of which input field we are typing in and what we are typing for suggestions
-    if (e.target.name === "item_name") { //to send value only when the user is writing in the item name input
+    if (e.target.name === "item_name") {
       handleSuggestion(e.target.value, index);
     }
 
-    //Clear suggestion when typing in other fields
     if (e.target.name !== "item_name") {
       setSuggestion([]);
     }
   }
 
-  //function to handle suggestion
   function handleSuggestion(input, index) {
     if (!input) {
       setSuggestion([]);
@@ -102,11 +99,10 @@ export default function CreateInvoice({ setIsActive }) {
     }
 
     const matched = showItem.filter(item =>
-      item.item_name.toLowerCase().includes(input.toLowerCase()), //it will give array of matched items like if you type a then give all the items whose name start with a
+      item.item_name.toLowerCase().includes(input.toLowerCase()),
     )
 
-    setSuggestion(matched.map(m => ({ ...m, index }))); // this will copy all items of matched and then add index field in each
-    // this index help react to know which input feild this suggestion belong 
+    setSuggestion(matched.map(m => ({ ...m, index })));
   }
 
   function handleSelectSuggestion(suggestion, i) {
@@ -119,7 +115,7 @@ export default function CreateInvoice({ setIsActive }) {
       discount: suggestion.discount
     };
     setCustomer({ ...customer, items: updatedItems });
-    setSuggestion([]); // close dropdown after selection
+    setSuggestion([]);
   }
 
   async function handleSubmit(e) {
@@ -155,19 +151,17 @@ export default function CreateInvoice({ setIsActive }) {
     }
   }
 
-  //fetch oweners details
   const [owner, setOwner] = useState({});
 
   const { fetchOwnerDetails } = useContext(InvoiceContext);
 
-  //we can't call fetchOwnerDetails directly because it is async await function which cause null if used and than set value in state 
   const ownerDetails = async () => {
     const getOwner = await fetchOwnerDetails();
     if (getOwner) setOwner(getOwner);
   }
 
   useEffect(() => {
-    ownerDetails(); 
+    ownerDetails();
   }, [])
 
 
@@ -237,7 +231,6 @@ export default function CreateInvoice({ setIsActive }) {
                     <input type="text" name="item_name" value={item.item_name} onChange={(e) => handleChangeItem(e, i)} />
                   </div>
                   <div>
-                    {/* Suggestion dropdown */}
                     {suggestion.length > 0 && suggestion[0].index === i && (
                       <ul className="suggestion-list">
                         {suggestion.map((sug, idx) => (
@@ -268,16 +261,9 @@ export default function CreateInvoice({ setIsActive }) {
                   <input type="number" name='discount' value={item.discount} onChange={(e) => handleChangeItem(e, i)} />
                 </div>
 
-                {/* <button type='button' onClick={() => deleteItem(i)}>X</button>
-                 i'm not taking it because react get confused when map use the index for rerendering the feilds because i have the last 
-                 index value in the loop and delete the last one only no metter which button you press */}
               </div>
             ))}
 
-            {/* {i === items.itemss.length - 1 ?
-              (<button onClick={addItem}>Add Item</button>) :
-              (<button onClick={addItem}>Delete Item</button>)
-            } */}
             <div className='inv-itm-btn'>
               <button type='button' onClick={addItem}>Add More Item</button>
               <button type="button" onClick={() => deleteItem(customer.items.length - 1)}>Delete Last Item</button>
