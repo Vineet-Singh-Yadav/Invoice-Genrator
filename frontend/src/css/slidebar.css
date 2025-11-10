@@ -1,0 +1,26 @@
+.slidebar-item {
+    padding: 10px;
+    border-bottom: 1px solid black;
+    width: 100%;
+    font-size: 18px;
+}
+
+.slidebar-item:hover {
+    cursor: pointer;
+    background-color: #f2f4f6;
+}
+
+.SI {
+    width: 100%;
+}
+
+.slide-logout {
+    border-top: 1px solid black;
+    font-size: 20px;
+    color: red;
+}
+
+.bi-lg {
+    color: red !important;
+    font-weight: bold !important;
+}

@@ -1,0 +1,44 @@
+.note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: red;
+}
+
+.show-itm {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    padding: 5px
+}
+
+.show-itm-upper {
+    background-color: white;
+    margin-left: 100px;
+    margin-right: 100px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
+    margin-bottom: 20px;
+    padding-top: 0;
+}
+
+.show-itm-upper h2 {
+    background-color: rgb(240, 234, 234);
+    border-bottom: 1px solid rgb(178, 178, 178);
+    margin-top: 0;
+    padding:10px
+}
+
+.show-itm-head{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    padding: 5px;
+}
+
+.show-itm-head p {
+  margin: 0;
+}

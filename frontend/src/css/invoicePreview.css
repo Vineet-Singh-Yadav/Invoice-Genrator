@@ -1,0 +1,212 @@
+.prv-inv {
+  width: 210mm;
+  height: 297mm;
+  background: #fff;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  padding: 40px 40px;
+  box-sizing: border-box;
+  position: relative;
+  transform-origin: top center;
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  
+}
+
+.inv-content {
+  flex: 1; 
+  margin-top: 10px;
+}
+
+.prv-inv-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f2f5;
+  padding: 40px;
+  margin: 0;
+}
+
+.logo-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 10%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
+}
+
+.prv-header-inv h1 {
+  margin: 0;
+}
+
+.prv-header-inv {
+  position: running(header);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  gap: 5px;
+}
+
+.header-style {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.prv-inv hr {
+  width: 30%;
+  border: 1px solid #195042;
+  margin-top: 10px;
+  margin-left: 0;
+}
+
+.div-inv-num {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.inv.details {
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: 2fr 2fr;
+  align-items:center;
+  justify-items: end;
+  width: 100%;
+}
+
+.inv-ctm-name {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.inv.details span {
+  font-size: 2rem;
+  font-weight: bolder;
+  font-style: italic;
+}
+
+.para-div{
+  display:flex ;
+  flex-direction: row;
+  align-items: center;
+  text-align: end;
+}
+.inv.details p {
+  font-size: 14px;
+  color: #333;
+  margin: 0;
+}
+
+.inv.details div strong {
+  margin: 0;
+}
+
+.inv.details div hr {
+  margin: 0;
+}
+
+.inv-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 50px;
+  font-size: 14px;
+  table-layout: fixed;
+}
+
+.inv-table th,
+.inv-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+  word-wrap: break-word;
+}
+
+.inv-table th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+}
+
+.inv-table th:nth-child(1),
+.inv-table td:nth-child(1) {
+  width: 30%;
+}
+
+.inv-table th:not(:first-child),
+.inv-table td:not(:first-child) {
+  width: 70% / 5;
+}
+
+.overAll {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 20px;
+  gap: 10px;
+}
+
+.overAll-div {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.prv-inv .overAll-div>div {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  width: 100%;
+}
+
+
+.overAll-div span {
+  font-size: 18px;
+}
+
+.overAll-grand {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+}
+
+.overAll-grand h2 {
+  margin: 0;
+}
+
+.overAll-grand span {
+  margin-top: 5px;
+  font-size: larger;
+  background-color: rgb(225, 213, 213);
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.footer {
+  position: running(footer);
+  text-align: left;
+  margin-top: 40px;
+  font-size: 13px;
+  color: #333;
+  border-top: 1px solid #ccc;
+  padding-top: 5px;
+}
+
+.footer div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.footer div p {
+  margin: 0;
+}
+
+
+

@@ -1,0 +1,76 @@
+.ReactModal__Overlay {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.ReactModal__Content {
+  position: relative;
+  background: #fff !important;
+  padding: 30px 40px !important;
+  border-radius: 12px !important;
+  width: 400px !important;
+  max-width: 90%;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.3s ease-in-out;
+
+  height: auto !important;      /* only as tall as content */
+  max-height: 90vh;             /* avoid going off screen */
+  overflow-y: auto;             /* scroll if content too tall */
+  inset: unset !important;      /* remove default react-modal positioning */
+}
+
+.ReactModal__Content form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ReactModal__Content label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.ReactModal__Content input {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.ReactModal__Content input:focus {
+  border-color: #195042;
+}
+
+.ReactModal__Content button {
+  background-color: #195042;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
+}
+
+.ReactModal__Content button:hover {
+  background-color: #146d59;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

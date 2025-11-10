@@ -1,0 +1,176 @@
+body{
+  padding: 0;
+  margin: 0;
+}
+.header {
+  background-color: rgb(255, 255, 255);
+  display: grid;
+  grid-template-columns: 1fr 4fr 1fr;
+  grid-template-rows: 60px;
+  border-bottom: 1px solid black;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  width: 100vw;
+  left: 0;
+  top: 0;
+  position: fixed; 
+  z-index: 1000;
+  align-items: center;
+}
+
+h1{
+  color: #195042;
+}
+.logo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: #333;
+}
+
+.logo img {
+  margin-left: 10px;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  border-radius: 10%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
+}
+
+.avtar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #195042;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
+}
+
+.userDropDown {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 10px;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 30px;
+  transition: background 0.3s ease;
+}
+
+.userDropDown:hover {
+  transform: scale(1.02);
+}
+
+.userDropInfo{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+
+.userDropDown h4 {
+  margin: 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.userDropDown p {
+  margin: 0;
+  font-size: 14px;
+  color: #777;
+}
+
+.userDropDown div button {
+  border: none;
+  background-color: white;
+  color: #333;
+  cursor: pointer;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  border-left: 1px solid black;
+  padding-left: 10px;
+  height: 100%;
+}
+
+.userInfo h4 {
+  margin: 0;
+  font-size: 15px;
+  color: #333;
+}
+
+.userInfo p {
+  margin: 0;
+  font-size: 14px;
+  color: #777;
+}
+
+.dropDownMenu {
+  position: absolute;
+  top: 62px;
+  right: 0;
+  background: #fff;
+  width: 250px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  z-index: 100;
+  padding-left: 5px;
+}
+
+.dropDownMenu .item-menu {
+  border-bottom: 1px solid black;
+  padding: 10px;
+}
+
+.logout {
+  color: red;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.editPassword {
+  border: none;
+  background-color: white;
+  padding: 0%;
+  cursor: pointer;
+}
+
+.item {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.item h4 {
+  margin: 0;
+  font-size: 15px;
+  color: #333;
+}
+
+.item p {
+  margin: 0;
+  font-size: 14px;
+  color: #777;
+}
+
+.editInfo {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding-left: 10px;
+  margin-left: 5px;
+  border-left: 1px solid black;
+}

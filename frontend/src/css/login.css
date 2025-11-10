@@ -1,0 +1,105 @@
+main {
+  padding-top: 60px;
+}
+
+.logo {
+  margin-left: 10px;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  border-radius: 10%;
+}
+
+.auth {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-height: 90vh;
+  height: auto;
+}
+
+.auth form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 400px;
+}
+
+.auth form label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.auth form input {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.auth form input:focus {
+  border-color: #195042;
+}
+
+.auth form button {
+  background-color: #195042;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
+}
+
+.logIn {
+  color: #195042;
+  cursor: pointer;
+}
+
+
+.auth hr {
+  border: none;
+  border-top: 1px solid #000;
+  width: 26%;
+  margin: 20px 0;
+  opacity: 0.3;
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.heading p {
+  margin-top: 0;
+  font-style: oblique;
+}
+
+.heading h2 {
+  margin-bottom: 0;
+  font: 2em sans-serif;
+}
+
+.auth p {
+  margin-top: 0;
+}
+
+.siteLogo {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
+}
+
+.bi {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  font-style: normal;
+}
+

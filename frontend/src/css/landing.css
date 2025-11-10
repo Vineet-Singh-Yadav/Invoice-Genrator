@@ -1,0 +1,96 @@
+.landing{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+.logo img{
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
+}
+
+.logo h1{
+  color: #333;
+}
+
+.authBtn{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+}
+
+.authBtn button{
+    background-color: #195042;
+    color: white;
+    padding: 7px;
+    padding-left: 20px ;
+    padding-right: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
+}
+
+.authBtn button:hover{
+    transform: scale(1.05);
+}
+
+.authBtn span{
+    cursor: pointer;
+    color: #333
+}
+
+.authBtn span:hover{
+ transform: scale(1.2);
+}
+
+.centerDiv{
+    margin: 20px;;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.centerDiv h1{
+    margin-bottom: 5px;
+}
+
+.subHeading{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.subHeading p{
+    margin: 0;
+    font-style: oblique;
+}
+
+.btn{
+    margin-top: 20px;
+   display: flex;
+   flex-direction: row;
+   gap: 20px; 
+}
+
+.btn button{
+   background-color: #195042;
+    color: white;
+    padding: 7px;
+    padding-left: 20px ;
+    padding-right: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
+}
+
+.btn button:hover{ 
+    transform: scale(1.2);
+}
+
+
