@@ -15,9 +15,6 @@ export default function InvoicePreview() {
   const { invNum } = useParams();
   const decodedId = invNum ? decodeURIComponent(invNum) : null;
 
-  const { invoiceNumber, business_name, gst, address, email, phone, items, sub_total, total_discount, total_gst, grand_total, createdAt } = invoicePreview;
-  const { business } = ownerPreview;
-  const date = new Date(createdAt).toLocaleDateString();
 
   async function fetchInvoice() {
     try {
@@ -49,6 +46,10 @@ export default function InvoicePreview() {
   if (!invoicePreview) {
     return <p>Loading invoice...</p>;
   }
+
+  const { invoiceNumber, business_name, gst, address, email, phone, items, sub_total, total_discount, total_gst, grand_total, createdAt } = invoicePreview;
+  const { business } = ownerPreview;
+  const date = new Date(createdAt).toLocaleDateString();
 
   const downloadPDF = () => {
     const input = invoiceRef.current;

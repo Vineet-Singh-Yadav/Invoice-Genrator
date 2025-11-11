@@ -7,9 +7,7 @@ export default function LearnMore() {
       <section className="intro">
         <h1>Discover Invonex</h1>
         <p>
-          Invonex is your intelligent invoicing partner — built to simplify billing,
-          automate reminders, and give you control over your business finances
-          with AI-powered accuracy.
+          Invonex is your intelligent invoicing partner — built to simplify billing and give you control over your business finances.
         </p>
       </section>
 
@@ -22,18 +20,7 @@ export default function LearnMore() {
               Generate invoices in seconds with auto-filled details and customizable templates.
             </p>
           </div>
-          <div className="feature-card">
-            <h3>⏰ Automated Reminders</h3>
-            <p>
-              Never chase payments again. Set reminders that automatically notify your clients.
-            </p>
-          </div>
-          <div className="feature-card">
-            <h3>📊 Real-Time Insights</h3>
-            <p>
-              Get AI-powered analytics about your income, pending payments, and business trends.
-            </p>
-          </div>
+          
           <div className="feature-card">
             <h3>🔒 Secure Cloud Storage</h3>
             <p>
@@ -47,9 +34,9 @@ export default function LearnMore() {
         <h2>How It Works</h2>
         <ol>
           <li>Sign up and set up your business profile.</li>
-          <li>Add your products, clients, and payment details.</li>
-          <li>Create invoices instantly using AI suggestions.</li>
-          <li>Send, track, and manage payments from one dashboard.</li>
+          <li>Add your products details.</li>
+          <li>Create invoices instantly.</li>
+          <li>Send and manage payments from one dashboard.</li>
         </ol>
       </section>
 
@@ -57,9 +44,7 @@ export default function LearnMore() {
         <h2>Why Choose Invonex?</h2>
         <ul>
           <li>✅ Saves hours of manual work every week.</li>
-          <li>✅ Reduces late payments with auto-reminders.</li>
           <li>✅ Gives you professional, branded invoices instantly.</li>
-          <li>✅ AI-driven reports help you make smarter business decisions.</li>
         </ul>
       </section>
 

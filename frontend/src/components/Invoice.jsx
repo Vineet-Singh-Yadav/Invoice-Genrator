@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import "../css/allInvoice.css";
 import { useNavigate } from 'react-router-dom';
 
-export default function Invoice() {
+export default function Invoice({setIsActive}) {
 
   const [invoice, setInvoice] = useState([]);
   const token = localStorage.getItem('token')
@@ -54,7 +54,7 @@ export default function Invoice() {
           <p>Next Generation Invoicing.</p>
         </div>
         <div>
-          <button>Create Invoice</button>
+          <button onClick={()=>setIsActive("create_invoice")}>Create Invoice</button>
         </div>
       </div>
 
@@ -78,7 +78,6 @@ export default function Invoice() {
                   <td>{inv.business_name}</td>
                   <td>{inv.grand_total}</td>
                   <td>
-                    <button onClick={() => handleEdit(inv)}>Edit</button>
                     <button onClick={(e) => handleShare(inv, e)}>Share</button>
                   </td>
                 </tr>

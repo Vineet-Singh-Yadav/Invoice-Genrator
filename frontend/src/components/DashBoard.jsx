@@ -10,7 +10,7 @@ import Items from './Items'
 
 
 export default function DashBoard() {
-  const [isActive, setIsActive] = useState("mainarea");
+  const [isActive, setIsActive] = useState("invoice");
 
 
   return (
@@ -22,9 +22,8 @@ export default function DashBoard() {
             <Sidebar setIsActive={setIsActive} />
           </div>
           <div className='mainarea'>
-            {isActive === "mainarea" && <MainArea />}
             {isActive === "profile" && <Profile />}
-            {isActive === "invoice" && <Invoice />}
+            {isActive === "invoice" && <Invoice setIsActive={setIsActive} />}
             {isActive === "create_invoice" && <CreateInvoice setIsActive={setIsActive} />}
             {isActive === "add_product" && <Items />}
           </div>
