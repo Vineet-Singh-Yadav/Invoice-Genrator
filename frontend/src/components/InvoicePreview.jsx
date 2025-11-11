@@ -15,6 +15,19 @@ export default function InvoicePreview() {
   const { invNum } = useParams();
   const decodedId = invNum ? decodeURIComponent(invNum) : null;
 
+  // for getting the pdf or invoice view as same as desktop on moblie also
+useEffect(() => {
+  const metaTag = document.createElement('meta');
+  metaTag.name = 'viewport';
+  metaTag.content = 'width=device-width, initial-scale=1.0, user-scalable=yes';
+  document.head.appendChild(metaTag);
+
+  return () => {
+    document.head.removeChild(metaTag);
+  };
+}, []);
+
+
 
   async function fetchInvoice() {
     try {
@@ -74,13 +87,6 @@ export default function InvoicePreview() {
 
   return (
     <div className='prv-inv-wrapper'>
-
-      <div style={{ textAlign: 'right', marginBottom: '10px' }}>
-        <button onClick={downloadPDF} className="btn btn-primary">
-          Download Invoice
-        </button>
-        <button onClick={shareInvoice} className="btn btn-secondary" style={{ marginLeft: '10px' }}>Copy Share Link</button>
-      </div>
 
       <div className='prv-inv' ref={invoiceRef}>
 
@@ -189,6 +195,11 @@ export default function InvoicePreview() {
           </div>
         </div>
 
+      </div>
+
+      <div className='floating-btns'>
+        <button onClick={downloadPDF} className="btn-dwn"><i className="bi bi-cloud-arrow-down-fill"></i></button>
+        <button onClick={shareInvoice} className="btn-dwn"><i className="bi bi-share-fill"></i></button>
       </div>
     </div>
   )
