@@ -42,3 +42,9 @@
 .show-itm-head p {
   margin: 0;
 }
+
+@media screen and (max-width: 768px) {
+  .show-itm-upper {
+    margin:30px 0; 
+  }
+}

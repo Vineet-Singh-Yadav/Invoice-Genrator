@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Header from './Header'
 import Sidebar from './Sidebar'
-import MainArea from './MainArea'
 import '../css/dashboard.css'
 import Profile from './Profile'
 import CreateInvoice from './CreateInvoice'
@@ -32,3 +31,4 @@ export default function DashBoard() {
     </>
   )
 }
+

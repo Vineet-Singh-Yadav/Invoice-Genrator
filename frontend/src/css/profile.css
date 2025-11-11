@@ -150,3 +150,9 @@
   font-weight: 500;
   color: #333;
 }
+
+@media screen and (max-width: 768px) {
+  .profile{
+    margin: 0px 1px;
+  }
+}

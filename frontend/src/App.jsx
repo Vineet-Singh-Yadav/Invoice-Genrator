@@ -11,6 +11,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import InvoicePreview from './components/InvoicePreview';
 import InvoiceFunctions from './components/contextApi/InvoiceFunctions.jsx';
 
+
 function App() {
 
   return (

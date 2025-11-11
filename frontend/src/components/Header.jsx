@@ -64,7 +64,7 @@ export default function Header() {
               <p>{userInfo.email}</p>
             </div>
           </div>
-          <div><button >{openDropdown ? "▲" : "▼"}</button></div>
+          <div><button>{openDropdown ? "▲" : "▼"}</button></div>
         </div>
 
         {openDropdown &&
@@ -86,4 +86,5 @@ export default function Header() {
     </>
   )
 }
+
 

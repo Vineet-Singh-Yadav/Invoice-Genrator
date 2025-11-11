@@ -161,7 +161,7 @@ export default function CreateInvoice({ setIsActive }) {
   }
 
   useEffect(() => {
-    ownerDetails();
+    ownerDetails(); 
   }, [])
 
 
@@ -180,7 +180,7 @@ export default function CreateInvoice({ setIsActive }) {
       <div className='crt-invoice-owner'>
         <div>
           <h4>Your Business Profile</h4>
-          <hr />
+          <hr/>
           <div>
             <p>Business Name: {owner.business}</p>
             <p>GST Number : {owner.gst}</p>
@@ -188,7 +188,7 @@ export default function CreateInvoice({ setIsActive }) {
             <p>Email: {owner.email}</p>
             <p>Phone: {owner.phone}</p>
           </div>
-          <hr />
+          <hr id="hr"/>
           <div className='upd-bus-btn'>
             <p>Note:- If your business details are not updated, please update them first.</p>
             <button onClick={() => setIsActive("profile")}>Update Business Profile</button>

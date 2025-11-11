@@ -17,10 +17,16 @@
 .slide-logout {
     border-top: 1px solid black;
     font-size: 20px;
-    color: red;
+    color: red; 
 }
 
 .bi-lg {
     color: red !important;
     font-weight: bold !important;
+}
+
+@media screen and (max-width: 768px) {
+  .slide-logout i{
+    display: none;
+}
 }
