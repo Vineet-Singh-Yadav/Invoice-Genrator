@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import "../css/allInvoice.css";
 import { useNavigate } from 'react-router-dom';
+import { toast } from "react-toastify";
 
 export default function Invoice({setIsActive}) {
 
@@ -21,10 +22,10 @@ export default function Invoice({setIsActive}) {
       if (json.success) {
         setInvoice(json.invoices);
       } else {
-        alert("No Invoice Found")
+        toast.error(json.message);
       }
     } catch (error) {
-      alert("Something went wrong. Please try again!");
+      toast.error("Something went wrong. Please try again!");
       console.log(error)
     }
   }
@@ -43,7 +44,7 @@ export default function Invoice({setIsActive}) {
     const encodedId = encodeURIComponent(inv.invoiceNumber);
     const shareUrl = `${window.location.origin}/invoice/${encodedId}`;
     navigator.clipboard.writeText(shareUrl);
-    alert("Invoice link copied!");
+    toast.success("Invoice link copied!");
   }
 
   return (
@@ -57,7 +58,7 @@ export default function Invoice({setIsActive}) {
           <button onClick={()=>setIsActive("create_invoice")}>Create Invoice</button>
         </div>
       </div>
-
+ 
       <div className='table-div' >
         <table>
           <thead>
@@ -72,7 +73,7 @@ export default function Invoice({setIsActive}) {
           <tbody>
             {invoice.length > 0 ? (
               invoice.map((inv, i) => (
-                <tr key={i} onClick={() => handleClick(inv)}>
+                <tr id='tr' key={i} onClick={() => handleClick(inv)}>
 
                   <td>{inv.invoiceNumber}</td>
                   <td>{inv.business_name}</td>

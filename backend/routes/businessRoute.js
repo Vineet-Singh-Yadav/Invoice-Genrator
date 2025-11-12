@@ -19,7 +19,7 @@ router.post("/businessDetails", [authVerify], async (req, res) => {
             existing.phone = Number(phone);
 
             await existing.save();
-            return res.json({ message: "Business info updated successfully", data: existing });
+            return res.json({success:true, message: "Business info updated successfully", data: existing });
         }
 
         const businessDetails = await Business.create({
@@ -31,10 +31,10 @@ router.post("/businessDetails", [authVerify], async (req, res) => {
             phone: Number(phone)
         });
 
-        return res.status(201).json({ message: "Business info saved successfully", data: businessDetails });
+        return res.status(201).json({success:true, message: "Business info saved successfully", data: businessDetails });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server error", error });
+        res.status(500).json({success: false, message: "Server error", error });
     }
 });
 
@@ -51,7 +51,7 @@ router.get("/ownerDetails", [authVerify], async (req, res) => {
         res.json({ success: true, user });
 
     } catch (error) {
-        res.status(500).json({ message: "Server error", error });
+        res.status(500).json({success:false, message: "Server error", error });
     }
 });
 
@@ -83,7 +83,7 @@ router.post("/saveItem",[authVerify],async(req, res)=>{
 
     }catch(error){
         console.error(error);
-        res.status(500).json({ message: "Server error", error })
+        res.status(500).json({success:false, message: "Server error", error })
     };
 });
 
@@ -92,11 +92,11 @@ router.get("/getSavedItem",[authVerify], async(req, res)=>{
         const userId = req.user.id;
         const item = await Item.find({userId});
 
-        if(!item){return res.json({success:false, message:"NO item found"})};
+        if(!item){return res.json({success:false, message:"No item found"})};
 
         res.json({success: true, item: item});
     } catch (error) {
-        res.status(500).json({ message: "Server error", error });
+        res.status(500).json({success:false, message: "Server error", error });
     }
 });
 

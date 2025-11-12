@@ -4,6 +4,7 @@ import UpdateUserInfo from './updateUserInfo'
 import ChnagePassword from './ChnagePassword';
 import '../css/header.css';
 import { useNavigate } from "react-router-dom"
+import { toast } from "react-toastify";
 
 export default function Header() {
   const navigate =useNavigate();
@@ -22,9 +23,13 @@ export default function Header() {
       });
 
       const json = await response.json();
+      if(json.success){
       setUserInfo(json.user);
+      }else{
+        toast.error(json.message);
+      }
     } catch (error) {
-      alert("Something went wrong. Please try again!");
+      toast.error("Something went wrong. Please try again!");
     }
   }
 
@@ -38,7 +43,7 @@ export default function Header() {
 
   const handleLogout = ()=>{
     localStorage.removeItem("token"); 
-    alert("Logged out successfully!"); 
+    toast.success("Logged out successfully!"); 
     navigate("/landing");
     setOpenDropdown(false);
   }

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import "../css/createInvoive.css"
 import { Await, useNavigate } from 'react-router-dom';
 import InvoiceContext from './contextApi/InvoiceContext';
+import { toast } from "react-toastify";
 
 export default function CreateInvoice({ setIsActive }) {
   const token = localStorage.getItem('token');
@@ -24,10 +25,10 @@ export default function CreateInvoice({ setIsActive }) {
       if (json.success) {
         setShowItem(json.item);
       } else {
-        alert(json.message);
+        toast.error( json.message);
       }
     } catch (error) {
-      alert("Something went wrong");
+      toast.error("Something went wrong");
     }
   };
 
@@ -141,13 +142,13 @@ export default function CreateInvoice({ setIsActive }) {
       const json = await response.json();
 
       if (json.success) {
-        alert(json.message);
+        toast.success(json.message);
         navigate("/invoicePreview", { state: { invoice: json.invoice, } });
       } else {
-        alert(json.message);
+        toast.error(json.message);
       }
     } catch (error) {
-      alert("Something went wrong. Please try again!");
+      toast.error("Something went wrong. Please try again!");
     }
   }
 

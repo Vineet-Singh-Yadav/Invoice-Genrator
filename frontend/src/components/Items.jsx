@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import "../css/product_service.css"
+import { toast } from "react-toastify";
 
 export default function Items() {
   const token = localStorage.getItem('token');
@@ -21,10 +22,10 @@ export default function Items() {
       if (json.success) {
         setShowItem(json.item);
       } else {
-        alert(json.message);
+        toast.error(json.message);
       }
     } catch (error) {
-      alert("Something went wrong");
+      toast.error("Something went wrong");
     }
   };
 
@@ -56,13 +57,13 @@ export default function Items() {
       const json = await response.json();
 
       if (json.success) {
-        alert(json.message);
+        toast.success(json.message);
         fetchItems();
         setItem({ item_name: "", unit_price: "", gst: "", discount: "" });
       } else
-        alert(json.message)
+        toast.error(json.message)
     } catch (error) {
-      alert("Something went wrong. Please try again!");
+      toast.error("Something went wrong. Please try again!");
     }
   }
 

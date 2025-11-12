@@ -3,6 +3,7 @@ import { useState } from 'react'
 import logo from "../assets/invoicelogo.png"
 import '../css/login.css'
 import { useNavigate } from 'react-router-dom'
+import { toast } from "react-toastify";
 
 
 export default function Signup() {
@@ -37,14 +38,14 @@ export default function Signup() {
 
             if (json.success) {
                 localStorage.setItem('token', json.authToken);
-                alert(json.message);
+                toast.success(json.message);
                 navigate("/");
             } else {
-                alert(json.message || "Invalid credentials!");
+                toast.error( json.message ||"Invalid credentials!");
             }
             
         } catch (error) {
-            alert("Something went wrong. Please try again!");
+            toast.error( "Something went wrong. Please try again!");
         }
 
     }

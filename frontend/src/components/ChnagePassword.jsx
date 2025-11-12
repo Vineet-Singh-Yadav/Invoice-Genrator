@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import ReactModal from 'react-modal'
 import "../css/modal.css"
+import { toast } from "react-toastify";
 
 export default function ChnagePassword({setOpenDropdown}) {
     const [modalOpen, setModalOpen] = useState(false)
@@ -17,7 +18,7 @@ export default function ChnagePassword({setOpenDropdown}) {
         e.preventDefault();
 
         if (password.newPassword !== password.confirmNewPassword) {
-            alert("Passwords do not match!");
+            toast.error( "Passwords do not match!");
             return;
         }
 
@@ -37,14 +38,14 @@ export default function ChnagePassword({setOpenDropdown}) {
             const json = await response.json();
             
             if (json.success) {
-                alert(json.message);
+                toast.success(json.message);
                 setModalOpen(false);
                 setOpenDropdown(false);
             } else {
-                alert(json.message || "Invalid credentials!");
+                toast.error( json.message ||"Invalid credentials!");
             }
         } catch (error) {
-            alert("Something went wrong. Please try again!");
+            toast.error( "Something went wrong. Please try again!");
         }
     }
 

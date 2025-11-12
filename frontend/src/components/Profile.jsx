@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import "../css/profile.css"
+import { toast } from "react-toastify";
 
 export default function Profile() {
   const [profile, setProfile] = useState({business: "", gst:"", address: "", email: "", phone: ""});
@@ -31,7 +32,7 @@ export default function Profile() {
 
       const json = await respone.json();
       console.log(json);
-      alert("Profile saved successfully!");
+      toast.success("Profile saved successfully!");
     } catch (error) {
       console.error("Error saving profile:", error);
     }

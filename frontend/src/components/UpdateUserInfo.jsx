@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import ReactModal from "react-modal"
 import { useEffect } from 'react';
 import "../css/modal.css"
+import { toast } from "react-toastify";
 
 ReactModal.setAppElement("#root");
 
@@ -41,15 +42,15 @@ export default function UpdateUserInfo({ userInfo, fetchUser, setOpenDropdown })
       const json = await response.json();
       
       if (json.success) {
-        alert(json.message);
+        toast.success(json.message);
         setModelOpen(false);
         setOpenDropdown(false);
         fetchUser();
       } else {
-        alert(json.message || "Invalid credentials!");
+        toast.error(json.message || "Invalid credentials!");
       }
     } catch (error) {
-      alert("Something went wrong. Please try again!");
+      toast.error("Something went wrong. Please try again!");
     }
   }
 

@@ -5,6 +5,7 @@ import '../css/invoicePreview.css'
 import logo from "../assets/invoicelogo.png";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { toast } from "react-toastify";
 
 
 export default function InvoicePreview() {
@@ -15,19 +16,25 @@ export default function InvoicePreview() {
   const { invNum } = useParams();
   const decodedId = invNum ? decodeURIComponent(invNum) : null;
 
-  // for getting the pdf or invoice view as same as desktop on moblie also
+// for getting the pdf or invoice view as same as desktop on moblie also
 useEffect(() => {
-  const metaTag = document.createElement('meta');
-  metaTag.name = 'viewport';
-  metaTag.content = 'width=device-width, initial-scale=1.0, user-scalable=yes';
-  document.head.appendChild(metaTag);
+  let metaTag = document.querySelector('meta[name="viewport"]');
+  if (!metaTag) {
+    metaTag = document.createElement('meta');
+    metaTag.name = 'viewport';
+    document.head.appendChild(metaTag);
+  }
+
+  const originalContent = metaTag.content;
+
+
+  metaTag.content =
+    'width=1024, initial-scale=' + (window.innerWidth / 1024) + ', maximum-scale=5.0, user-scalable=yes';
 
   return () => {
-    document.head.removeChild(metaTag);
+    metaTag.content = originalContent;
   };
 }, []);
-
-
 
   async function fetchInvoice() {
     try {
@@ -40,10 +47,10 @@ useEffect(() => {
       if (json.success) {
         setInvoicePreview(json.invoice);
       } else {
-        alert("Invoice not found!");
+        toast.error("Invoice not found!");
       }
     } catch (error) {
-      alert("Failed to load invoice");
+      toast.error("Failed to load invoice");
     }
   }
 
@@ -82,7 +89,7 @@ useEffect(() => {
     const encodedId = encodeURIComponent(invoiceNumber);
     const shareUrl = `${window.location.origin}/invoice/${encodedId}`;
     navigator.clipboard.writeText(shareUrl);
-    alert(" Shareable link copied!");
+    toast.success(" Shareable link copied!");
   };
 
   return (
@@ -171,10 +178,10 @@ useEffect(() => {
                 <span>Subtotal (Before Tax & Discount) :</span> <span>₹ {sub_total.toFixed(2)}</span>
               </div>
               <div>
-                <span>Total Discount :</span> <span> ₹ {total_gst.toFixed(2)}</span>
+                <span>Total Discount :</span> <span> ₹ {total_discount.toFixed(2)}</span>
               </div>
               <div>
-                <span>Total Tax (GST) :</span> <span> ₹ {total_discount.toFixed(2)}</span>
+                <span>Total Tax (GST) :</span> <span> ₹ {total_gst.toFixed(2)}</span>
               </div>
               <div>
                 <span>Grand Total (₹) :</span> <span> ₹ {grand_total.toFixed(2)}</span>

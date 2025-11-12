@@ -10,6 +10,8 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import InvoicePreview from './components/InvoicePreview';
 import InvoiceFunctions from './components/contextApi/InvoiceFunctions.jsx';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 function App() {
@@ -17,6 +19,16 @@ function App() {
   return (
     <BrowserRouter>
       <>
+        <ToastContainer
+          position="top-center"
+          autoClose={2000}
+          theme="light"
+          hideProgressBar={true}
+          closeOnClick
+          pauseOnHover={false}
+          draggable={false}
+        />
+
         <InvoiceFunctions>
           <Routes>
 

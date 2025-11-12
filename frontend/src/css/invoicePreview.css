@@ -71,12 +71,13 @@
   justify-content: center;
 }
 
+
 .inv.details {
   margin-top: 50px;
   display: grid;
-  grid-template-columns: 2fr 2fr;
+  grid-template-columns: 1.5fr 2.5fr;
   align-items:center;
-  justify-items: end;
+  justify-items:end;
   width: 100%;
 }
 
@@ -237,10 +238,7 @@
   background-color: #156b56;
 }
 
-  /* .prv-inv {
-    transform: scale(0.6) !important;
-    transform-origin: top center !important;
-  } */
+ 
 
 
 
