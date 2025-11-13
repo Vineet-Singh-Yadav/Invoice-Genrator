@@ -14,14 +14,14 @@ export default function DashBoard() {
 
   return (
     <>
-      <Header />
+      <Header setIsActive={setIsActive}/>
       <main>
         <div className='dashboard'>
           <div className='sidebar'>
             <Sidebar setIsActive={setIsActive} />
           </div>
           <div className='mainarea'>
-            {isActive === "profile" && <Profile />}
+            {isActive === "profile" && <Profile setIsActive={setIsActive}/>}
             {isActive === "invoice" && <Invoice setIsActive={setIsActive} />}
             {isActive === "create_invoice" && <CreateInvoice setIsActive={setIsActive} />}
             {isActive === "add_product" && <Items />}

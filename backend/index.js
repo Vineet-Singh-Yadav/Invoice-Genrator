@@ -17,8 +17,8 @@ const port = process.env.PORT;
 app.use(express.json());
 
 app.use("/api/auth", authRoute);
-app.use("/business", bussinessRoute );
-app.use("/invoice", invoiceRoute);
+app.use("/api/business", bussinessRoute );
+app.use("/api/invoice", invoiceRoute);
 
 app.listen(port, ()=>{
     console.log(`connected to serever at ${port}`); 

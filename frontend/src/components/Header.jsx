@@ -6,7 +6,7 @@ import '../css/header.css';
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify";
 
-export default function Header() {
+export default function Header({setIsActive}) {
   const navigate =useNavigate();
   const [userInfo, setUserInfo] = useState({});
   const [openDropdown, setOpenDropdown] = useState(false); 
@@ -14,7 +14,7 @@ export default function Header() {
 
   const fetchUser = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/auth/getUser", {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_API}/auth/getUser`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -81,7 +81,7 @@ export default function Header() {
               </div>
               <UpdateUserInfo userInfo={userInfo} fetchUser={fetchUser} setOpenDropdown={setOpenDropdown}/>
             </div>
-            <div className='item-menu'>Business Profile</div>
+            <div className='item-menu'onClick={()=>setIsActive('profile')}>Business Profile</div>
             <div className='item-menu'> <ChnagePassword setOpenDropdown={setOpenDropdown}/> </div>
             <div className='logout' onClick={handleLogout}>Logout</div>
           </div>

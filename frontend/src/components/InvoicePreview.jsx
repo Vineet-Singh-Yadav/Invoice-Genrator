@@ -39,7 +39,7 @@ useEffect(() => {
   async function fetchInvoice() {
     try {
       const encodedId = encodeURIComponent(decodedId);
-      const response = await fetch(`http://localhost:3000/invoice/getInvoice/${encodedId}`, {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_API}/invoice/getInvoice/${encodedId}`, {
         method: "GET"
       });
       const json = await response.json();

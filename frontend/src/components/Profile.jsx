@@ -1,9 +1,23 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import "../css/profile.css"
 import { toast } from "react-toastify";
+import InvoiceContext from './contextApi/InvoiceContext';
 
-export default function Profile() {
+export default function Profile({setIsActive}) {
   const [profile, setProfile] = useState({business: "", gst:"", address: "", email: "", phone: ""});
+
+    const { fetchOwnerDetails } = useContext(InvoiceContext);
+  
+    const ownerDetails = async () => {
+      const getOwner = await fetchOwnerDetails();
+      if (getOwner) setProfile(getOwner);
+    }
+  
+    
+    useEffect(() => {
+      ownerDetails(); 
+    }, [])
+
 
   function handleChange(e){
     setProfile({...profile,[e.target.name]: e.target.value});
@@ -14,7 +28,7 @@ export default function Profile() {
 
     try {
       const token = localStorage.getItem("token");
-      const respone = await fetch("http://localhost:3000/business/businessDetails",{
+      const respone = await fetch(`${import.meta.env.VITE_SERVER_API}/business/businessDetails`,{
          method:"POST",
          headers: {
           "Content-Type": "application/json",
@@ -31,12 +45,14 @@ export default function Profile() {
       });
 
       const json = await respone.json();
-      console.log(json);
-      toast.success("Profile saved successfully!");
+      if(json.success){
+      toast.success(json.message);
+      setIsActive('create_invoice');
+      }
     } catch (error) {
       console.error("Error saving profile:", error);
     }
-  }
+  } 
   return (
     <div className='profile'>
       <h2>My Profile</h2>
@@ -45,28 +61,28 @@ export default function Profile() {
         <div className='profile-form'>
 
           <div className='bus-cls'>
-            <h3>Business Information</h3>
+            <h3>Your Business Information</h3>
             <p>This will be used to pre-fill the "Bill Form" section of your invoices.</p>
           </div>
 
           <label htmlFor="business"><i className="bi bi-building"></i> Bussiness Name</label>
-          <input type="text" placeholder='Enter your business name' name='business' onChange={handleChange} required />
+          <input type="text" placeholder='Enter your business name' value={profile.business} name='business' onChange={handleChange} required />
 
           <label htmlFor="gst"><i className="bi bi-cash-coin"></i> GSTIN</label>
-          <input type="text" minLength={15} maxLength={15} placeholder='Enter GST number' name='gst' onChange={handleChange}/>
+          <input type="text" minLength={15} maxLength={15} placeholder='Enter GST number' value={profile.gst} name='gst' onChange={handleChange}/>
 
           <label htmlFor="address"><i className="bi bi-geo"></i> Address</label>
-          <textarea name="address"  placeholder='xyz, Street- abc, district, state, pincode' onChange={handleChange} required></textarea>
+          <textarea name="address"  placeholder='xyz, Street- abc, district, state, pincode' value={profile.address} onChange={handleChange} required></textarea>
 
           <label htmlFor="email"><i className="bi bi-envelope"></i> Email Address</label>
-          <input type="email" placeholder='Enter your email' name='email' onChange={handleChange} required/>
+          <input type="email" placeholder='Enter your email' name='email' value={profile.email} onChange={handleChange} required/>
            
           <label htmlFor="phone"><i className="bi bi-telephone"></i> Phone</label>
-          <input type="tel" maxLength={10} name='phone' placeholder='Enter your phone number' onChange={handleChange} required />
+          <input type="tel" maxLength={10} name='phone' placeholder='Enter your phone number' value={profile.phone} onChange={handleChange} required />
 
         </div>
         <div className='btn-div'>
-          <button type='submit' className='btn-profile'>Save Profile</button>
+          <button type='submit' className='btn-profile'>Save/Update Profile</button>
         </div>
       </form>
     </div>

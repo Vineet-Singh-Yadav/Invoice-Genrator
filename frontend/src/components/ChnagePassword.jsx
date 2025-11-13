@@ -23,7 +23,7 @@ export default function ChnagePassword({setOpenDropdown}) {
         }
 
         try {
-            const response = await fetch("http://localhost:3000/api/auth/updatePassword", {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_API}/auth/updatePassword`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

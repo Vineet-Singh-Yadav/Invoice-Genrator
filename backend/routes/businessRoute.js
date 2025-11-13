@@ -45,7 +45,7 @@ router.get("/ownerDetails", [authVerify], async (req, res) => {
         const user = await Business.findOne({ userId: userId });
 
         if (!user) {
-            return res.json({ success: false, message: "Business details not found" });
+            return res.json({ success: false, message: "First Add Your Business Details" });
         }
 
         res.json({ success: true, user });
@@ -92,13 +92,33 @@ router.get("/getSavedItem",[authVerify], async(req, res)=>{
         const userId = req.user.id;
         const item = await Item.find({userId});
 
-        if(!item){return res.json({success:false, message:"No item found"})};
+        if(!item){return res.json({success:false, message:"You haven't added any items yet"})};
 
         res.json({success: true, item: item});
     } catch (error) {
         res.status(500).json({success:false, message: "Server error", error });
     }
 });
+
+
+router.delete("/deleteItem/:id", [authVerify], async (req, res) => {
+    try {
+        const { id } = req.params;
+        const userId = req.user.id;
+
+        const item = await Item.findOneAndDelete({ _id: id, userId });
+
+        if (!item) {
+            return res.status(404).json({ success: false, message: "Item not found or unauthorized" });
+        }
+
+        res.json({ success: true, message: "Item deleted successfully" });
+    } catch (error) {
+        console.error("Delete Item Error:", error);
+        res.status(500).json({ success: false, message: "Server error while deleting item" });
+    }
+});
+
 
 
 export default router;

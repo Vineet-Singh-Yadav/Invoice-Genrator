@@ -10,9 +10,32 @@ export default function CreateInvoice({ setIsActive }) {
   const navigate = useNavigate();
   const [suggestion, setSuggestion] = useState([]);
 
+  const [owner, setOwner] = useState({});
+
+  const { fetchOwnerDetails } = useContext(InvoiceContext);
+
+  const ownerDetails = async () => {
+    const getOwner = await fetchOwnerDetails();
+
+    if (!getOwner) {
+      toast.warn("Please add your business details first.");
+      setIsActive("profile");
+      return;
+    }
+
+    setOwner(getOwner);
+
+  };
+
+
+  useEffect(() => {
+    ownerDetails();
+  }, [])
+
+
   async function fetchItems() {
     try {
-      const response = await fetch("http://localhost:3000/business/getSavedItem", {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_API}/business/getSavedItem`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -25,7 +48,7 @@ export default function CreateInvoice({ setIsActive }) {
       if (json.success) {
         setShowItem(json.item);
       } else {
-        toast.error( json.message);
+        toast.error(json.message);
       }
     } catch (error) {
       toast.error("Something went wrong");
@@ -123,7 +146,7 @@ export default function CreateInvoice({ setIsActive }) {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:3000/invoice/createInvoice", {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_API}/invoice/createInvoice`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -152,19 +175,6 @@ export default function CreateInvoice({ setIsActive }) {
     }
   }
 
-  const [owner, setOwner] = useState({});
-
-  const { fetchOwnerDetails } = useContext(InvoiceContext);
-
-  const ownerDetails = async () => {
-    const getOwner = await fetchOwnerDetails();
-    if (getOwner) setOwner(getOwner);
-  }
-
-  useEffect(() => {
-    ownerDetails(); 
-  }, [])
-
 
   return (
     <>
@@ -181,7 +191,7 @@ export default function CreateInvoice({ setIsActive }) {
       <div className='crt-invoice-owner'>
         <div>
           <h4>Your Business Profile</h4>
-          <hr/>
+          <hr />
           <div>
             <p>Business Name: {owner.business}</p>
             <p>GST Number : {owner.gst}</p>
@@ -189,7 +199,7 @@ export default function CreateInvoice({ setIsActive }) {
             <p>Email: {owner.email}</p>
             <p>Phone: {owner.phone}</p>
           </div>
-          <hr id="hr"/>
+          <hr id="hr" />
           <div className='upd-bus-btn'>
             <p>Note:- If your business details are not updated, please update them first.</p>
             <button onClick={() => setIsActive("profile")}>Update Business Profile</button>

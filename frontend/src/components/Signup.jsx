@@ -19,12 +19,12 @@ export default function Signup() {
         e.preventDefault();
 
         if (credential.password !== credential.cpassword) {
-            alert("Passwords do not match!");
+            toast.error("Passwords do not match!");
             return;
         }
 
         try {
-            const response = await fetch("http://localhost:3000/api/auth/register", { 
+            const response = await fetch(`${import.meta.env.VITE_SERVER_API}/auth/register`, { 
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -46,6 +46,7 @@ export default function Signup() {
             
         } catch (error) {
             toast.error( "Something went wrong. Please try again!");
+            console.log(error)
         }
 
     }

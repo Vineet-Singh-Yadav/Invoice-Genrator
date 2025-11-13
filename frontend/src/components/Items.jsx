@@ -5,11 +5,12 @@ import { toast } from "react-toastify";
 export default function Items() {
   const token = localStorage.getItem('token');
   const [item, setItem] = useState({ item_name: "", unit_price: "", gst: "", discount: "" });
+  const [editItem, setEditItem] = useState(null);// for conditional rendering of form button
   const [showItem, setShowItem] = useState([]);
 
   async function fetchItems() {
     try {
-      const response = await fetch("http://localhost:3000/business/getSavedItem", {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_API}/business/getSavedItem`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -33,6 +34,17 @@ export default function Items() {
     fetchItems();
   }, [])
 
+
+  const handleEdit = (itm) => {
+    setEditItem(itm);
+    setItem({//for placeholder value
+      item_name: itm.item_name,
+      unit_price: itm.unit_price,
+      gst: itm.gst,
+      discount: itm.discount,
+    });
+  };
+
   function handleChange(e) {
     setItem({ ...item, [e.target.name]: e.target.value });
   }
@@ -40,7 +52,7 @@ export default function Items() {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3000/business/saveItem", {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_API}/business/saveItem`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -59,11 +71,33 @@ export default function Items() {
       if (json.success) {
         toast.success(json.message);
         fetchItems();
+        setEditItem(null);
         setItem({ item_name: "", unit_price: "", gst: "", discount: "" });
       } else
         toast.error(json.message)
     } catch (error) {
       toast.error("Something went wrong. Please try again!");
+    }
+  }
+
+  async function deleteItem(id) {
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_API}/business/deleteItem/${id}`, {
+        method: "DELETE",
+        headers: { "auth-token": token }
+      });
+
+      const json = await response.json();
+
+      if (json.success) {
+        toast.success(json.message);
+        fetchItems();
+      } else {
+        toast.error(json.message);
+      }
+    } catch (error) {
+      toast.error("Something went wrong while deleting!");
     }
   }
 
@@ -89,7 +123,7 @@ export default function Items() {
             <input type="text" name="discount" value={item.discount} onChange={handleChange} />
           </div>
           <div className='btn-div'>
-            <button className='btn-profile'>Add Product/Service</button>
+            <button className='btn-profile' type="submit">{editItem ? 'Update Product/Service' : 'Add Product/Service'}</button>
           </div>
         </form>
       </div>
@@ -98,25 +132,42 @@ export default function Items() {
 
       <div className='show-itm-upper' >
         <h2>All Your Products/ Services</h2>
-        <div className='show-itm-head'>
-          <p>Sr. No.</p>
-          <p>Item Name</p>
-          <p>Unit Price</p>
-          <p>GST</p>
-          <p>Discount</p>
-        </div>
-        {showItem.map((itm, index) => (
-          <div key={index} className='show-itm' >
-            <p>{index + 1}.</p>
-            <p>{itm.item_name}</p>
-            <p>{itm.unit_price}</p>
-            <p>{itm.gst}</p>
-            <p>{itm.discount}</p>
-          </div>
-        ))}
 
+        <table className='item-table'>
+          <thead>
+            <tr>
+              <th>Item Name</th>
+              <th>Unit Price (₹)</th>
+              <th>GST (%)</th>
+              <th>Discount (%)</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {showItem.length > 0 ? (
+              showItem.map((itm, index) => (
+                <tr key={index}>
+                  <td>{itm.item_name}</td>
+                  <td>{itm.unit_price}</td>
+                  <td>{itm.gst}</td>
+                  <td>{itm.discount}</td>
+                  <td id='itm-action'>
+                    <button className='edit-btn' onClick={() => handleEdit(itm)}><i className="bi bi-pencil-square"></i></button>
+                    <button className='edit-btn' onClick={() => deleteItem(itm._id)}><i className="bi bi-trash3"></i></button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="6" style={{ textAlign: "center", padding: "10px" }}>
+                  No products or services added yet.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
-
 
     </>
   )

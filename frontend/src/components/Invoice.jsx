@@ -11,7 +11,7 @@ export default function Invoice({setIsActive}) {
 
   async function fetchInvoice() {
     try {
-      const response = await fetch("http://localhost:3000/invoice/fetchInvoice", {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_API}/invoice/fetchInvoice`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -21,9 +21,7 @@ export default function Invoice({setIsActive}) {
       const json = await response.json();
       if (json.success) {
         setInvoice(json.invoices);
-      } else {
-        toast.error(json.message);
-      }
+      } 
     } catch (error) {
       toast.error("Something went wrong. Please try again!");
       console.log(error)

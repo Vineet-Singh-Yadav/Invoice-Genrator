@@ -28,7 +28,7 @@ export default function UpdateUserInfo({ userInfo, fetchUser, setOpenDropdown })
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:3000/api/auth/updateUserInfo", {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_API}/auth/updateUserInfo`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
