@@ -135,8 +135,9 @@ export default function CreateInvoice({ setIsActive }) {
       ...updatedItems[i],
       item_name: suggestion.item_name,
       unit_price: suggestion.unit_price,
-      gst_per: suggestion.gst_per,
-      discount: suggestion.discount
+      gst_per: suggestion.gst,
+      discount: suggestion.discount,
+      quantity: 1
     };
     setCustomer({ ...customer, items: updatedItems });
     setSuggestion([]);

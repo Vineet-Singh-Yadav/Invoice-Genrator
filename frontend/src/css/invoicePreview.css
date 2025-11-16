@@ -1,6 +1,5 @@
 .prv-inv {
   width: 210mm;
-  height: 297mm;
   background: #fff;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
   border-radius: 4px;
@@ -12,23 +11,23 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  
 }
 
 .inv-content {
-  flex: 1; 
+  flex: 1;
   margin-top: 10px;
 }
 
 .prv-inv-wrapper {
   display: flex;
-  justify-content: center;  
-  align-items: center;       
-  min-height: 100vh;        
-  background-color: #f0f0f0; 
-  padding: 20px 0;                
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f0f0;
+  padding: 20px 0;
   position: relative;
 }
+
 
 .logo-img {
   width: 40px;
@@ -76,8 +75,8 @@
   margin-top: 50px;
   display: grid;
   grid-template-columns: 1.5fr 2.5fr;
-  align-items:center;
-  justify-items:end;
+  align-items: center;
+  justify-items: end;
   width: 100%;
 }
 
@@ -93,12 +92,13 @@
   font-style: italic;
 }
 
-.para-div{
-  display:flex ;
+.para-div {
+  display: flex;
   flex-direction: row;
   align-items: center;
   text-align: end;
 }
+
 .inv.details p {
   font-size: 14px;
   color: #333;
@@ -215,7 +215,7 @@
   bottom: 20px;
   right: 20px;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   gap: 10px;
   z-index: 999;
 }
@@ -228,7 +228,7 @@
   width: 50px;
   height: 50px;
   font-size: 20px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
@@ -238,9 +238,94 @@
   background-color: #156b56;
 }
 
- 
+
+@media screen and (max-width: 768px) {
+
+  .prv-inv {
+    width: 100%;
+    padding: 20px;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .prv-inv-wrapper {
+    padding: 10px 0;
+    align-items: flex-start;
+    background-color: #fff;
+  }
+
+  .header-style {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .div-inv-num {
+    align-items: flex-start;
+  }
 
 
+  .inv.details {
+    grid-template-columns: 1fr;
+    text-align: left;
+    margin-top: 0;
+    justify-items: left;
+    gap: 20px;
+  }
 
+  .para-div {
+    text-align: left;
+    justify-content: flex-start;
+  }
 
+  .inv-ctm-name {
+    text-align: left;
+  }
 
+  .inv-table {
+    font-size: 12px;
+  }
+
+  .inv-table th,
+  .inv-table td {
+    padding: 6px;
+  }
+
+  .overAll {
+    grid-template-columns: 1fr;
+    padding: 10px;
+    gap: 15px;
+  }
+
+  .overAll-div span {
+    font-size: 15px;
+  }
+
+  .overAll-grand span {
+    font-size: 18px;
+  }
+
+  .footer {
+    font-size: 12px;
+    margin-top: 20px;
+  }
+
+  .floating-btns {
+    right: 10px;
+    bottom: 10px;
+  }
+
+  #inv-prv-hr{
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 450px) {
+
+  .inv-table th,
+  .inv-table td {
+    font-size: 10px;
+    padding: 4px;
+  }
+}

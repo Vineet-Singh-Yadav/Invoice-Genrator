@@ -1,7 +1,12 @@
 import express from "express"
 import genrateInvoiceNo from '../middleware/genrateInvoiceNo.js';
-import authVerify from "../middleware/jwtVerify.js"
+import authVerify from "../middleware/jwtVerify.js";
 import Invoice from "../models/invoiceSchema.js";
+import Business from "../models/business.js";
+import path from 'path';
+import ejs from 'ejs';
+import puppeteer from 'puppeteer';
+
 
 const router = express.Router();
 
@@ -86,6 +91,59 @@ router.get("/getInvoice/:invoiceNumber", async (req, res) => {
         res.status(200).json({ success: true, invoice });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
+    }
+});
+
+router.get("/createPdf/:invoiceNumber", async (req, res) => {
+    try {
+        const { invoiceNumber } = req.params;
+        const decodedInvoiceNumber = decodeURIComponent(invoiceNumber);
+        const invoice = await Invoice.findOne({ invoiceNumber: decodedInvoiceNumber });
+
+        if (!invoice) {
+            return res.status(404).json({ success: false, message: "Invoice not found" });
+        }
+
+        const owner = await Business.findOne({ userId: invoice.userId });
+
+        const date = new Date(invoice.createdAt).toLocaleDateString();
+
+        const invoiceData = {
+            invoice,
+            owner,
+            date
+        }
+
+        const tampletePath = path.join(process.cwd(), "templates", "pdfTemplate.ejs");
+
+        const html = await ejs.renderFile(tampletePath, { invoiceData });
+
+        const broswer = await puppeteer.launch({
+            headless: "new",
+            args: ["--no-sandbox", "--disable-setuid-sandbox"]
+        });
+        const page = await broswer.newPage();
+
+        await page.setContent(html, { waitUntil: "networkidle0" });
+        await page.emulateMediaType("screen");
+
+        const pdf = await page.pdf({
+            format: "A4",
+            landscape: false,
+            printBackground: true,
+            margin: { top: "10mm", bottom: "10mm", left: "10mm", right: "10mm" }
+        });
+
+        await broswer.close();
+
+        res.set({
+            "Content-Type": "application/pdf",
+            "Content-Disposition": `attachment; filename=invoice_${invoiceNumber}.pdf`
+        });
+
+        res.send(pdf);
+    } catch (error) {
+        res.status(500).json({ success: false, msg: "Error generating PDF" });
     }
 });
 

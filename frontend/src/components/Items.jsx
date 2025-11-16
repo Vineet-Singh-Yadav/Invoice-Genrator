@@ -37,7 +37,7 @@ export default function Items() {
 
   const handleEdit = (itm) => {
     setEditItem(itm);
-    setItem({//for placeholder value
+    setItem({
       item_name: itm.item_name,
       unit_price: itm.unit_price,
       gst: itm.gst,

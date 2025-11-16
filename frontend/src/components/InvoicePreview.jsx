@@ -3,38 +3,16 @@ import { useLocation, useParams } from 'react-router-dom';
 import InvoiceContext from './contextApi/InvoiceContext';
 import '../css/invoicePreview.css'
 import logo from "../assets/invoicelogo.png";
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
 import { toast } from "react-toastify";
-
+import { saveAs } from "file-saver";
 
 export default function InvoicePreview() {
   const location = useLocation();
   const [invoicePreview, setInvoicePreview] = useState(location.state?.invoice || null);
   const { fetchOwnerDetails, ownerPreview } = useContext(InvoiceContext);//contextApi
-  const invoiceRef = useRef();
   const { invNum } = useParams();
   const decodedId = invNum ? decodeURIComponent(invNum) : null;
 
-// for getting the pdf or invoice view as same as desktop on moblie also
-useEffect(() => {
-  let metaTag = document.querySelector('meta[name="viewport"]');
-  if (!metaTag) {
-    metaTag = document.createElement('meta');
-    metaTag.name = 'viewport';
-    document.head.appendChild(metaTag);
-  }
-
-  const originalContent = metaTag.content;
-
-
-  metaTag.content =
-    'width=1024, initial-scale=' + (window.innerWidth / 1024) + ', maximum-scale=5.0, user-scalable=yes';
-
-  return () => {
-    metaTag.content = originalContent;
-  };
-}, []);
 
   async function fetchInvoice() {
     try {
@@ -71,19 +49,6 @@ useEffect(() => {
   const { business } = ownerPreview;
   const date = new Date(createdAt).toLocaleDateString();
 
-  const downloadPDF = () => {
-    const input = invoiceRef.current;
-    html2canvas(input, { scale: 2, useCORS: true }).then((canvas) => {
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-      pdf.save(`invoice_${invoiceNumber}.pdf`);
-    });
-  };
-
 
   const shareInvoice = () => {
     const encodedId = encodeURIComponent(invoiceNumber);
@@ -92,10 +57,25 @@ useEffect(() => {
     toast.success(" Shareable link copied!");
   };
 
+  const downloadPDF = async () => {
+    try {
+      const finalId =  decodedId || invoicePreview.invoiceNumber;
+      const encodedId = encodeURIComponent(finalId);
+
+      const response = await fetch(`${import.meta.env.VITE_SERVER_API}/invoice/createPdf/${encodedId}`, {
+        method: 'GET'
+      });
+
+      const blob = await response.blob();
+      saveAs(blob, `${encodedId}.pdf`);
+    } catch (error) {
+      toast.error("Failed to download PDF!");
+    }
+  }
   return (
     <div className='prv-inv-wrapper'>
 
-      <div className='prv-inv' ref={invoiceRef}>
+      <div className='prv-inv'>
 
         <div className='header-style'>
           <div className='prv-header-inv'>
@@ -113,7 +93,7 @@ useEffect(() => {
             </div>
           </div>
         </div>
-        <hr />
+        <hr id='inv-prv-hr' />
 
         <div className='inv-content'>
 
@@ -211,3 +191,7 @@ useEffect(() => {
     </div>
   )
 }
+
+
+
+
