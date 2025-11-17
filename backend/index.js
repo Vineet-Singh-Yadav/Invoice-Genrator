@@ -15,6 +15,7 @@ app.use(cors());
 const port = process.env.PORT;
 
 app.use(express.json());
+app.use(express.static("public"));
 
 app.use("/api/auth", authRoute);
 app.use("/api/business", bussinessRoute );

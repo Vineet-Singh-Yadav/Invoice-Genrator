@@ -1,258 +1,261 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8" />
-  <title>Invoice <%= invoiceData.invoice.invoiceNumber %></title>
+  <title>Invoice <%= invoiceData.invoice.invoiceNumber %>
+  </title>
 
   <style>
-.prv-inv {
-  width: 210mm;
-  background: #fff;
-  border-radius: 4px;
-  box-sizing: border-box;
-  position: relative;
-  transform-origin: top center;
-  transition: transform 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
+    .prv-inv {
+      width: 210mm;
+      background: #fff;
+      border-radius: 4px;
+      box-sizing: border-box;
+      position: relative;
+      transform-origin: top center;
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
 
-.inv-content {
-  flex: 1;
-  margin-top: 10px;
-}
+    .inv-content {
+      flex: 1;
+      margin-top: 10px;
+    }
 
-.prv-inv-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: start;
-  background-color: #fff;
-}
-
-
-.logo-img {
-  width: 40px;
-  height: 40px;
-  border-radius: 10%;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
-}
-
-.prv-header-inv h1 {
-  margin: 0;
-}
-
-.prv-header-inv {
-  position: running(header);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: start;
-  gap: 5px;
-}
-
-.header-style {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.prv-inv hr {
-  width: 30%;
-  border: 1px solid #195042;
-  margin-top: 10px;
-  margin-left: 0;
-}
-
-.div-inv-num {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
+    .prv-inv-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: start;
+      background-color: #fff;
+    }
 
 
-.inv.details {
-  margin-top: 50px;
-  display: grid;
-  grid-template-columns: 1.5fr 2.5fr;
-  align-items: center;
-  justify-items: end;
-  width: 100%;
-}
+    .logo-img {
+      width: 40px;
+      height: 40px;
+      border-radius: 10%;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
+    }
 
-.inv-ctm-name {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
+    .prv-header-inv h1 {
+      margin: 0;
+    }
 
-.inv.details span {
-  font-size: 2rem;
-  font-weight: bolder;
-  font-style: italic;
-}
+    .prv-header-inv {
+      position: running(header);
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: start;
+      gap: 5px;
+    }
 
-.para-div {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  text-align: end;
-}
+    .header-style {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
 
-.inv.details p {
-  font-size: 14px;
-  color: #333;
-  margin: 0;
-}
+    .prv-inv hr {
+      width: 30%;
+      border: 1px solid #195042;
+      margin-top: 10px;
+      margin-left: 0;
+    }
 
-.inv.details div strong {
-  margin: 0;
-}
-
-.inv.details div hr {
-  margin: 0;
-}
-
-.inv-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 50px;
-  font-size: 14px;
-  table-layout: fixed;
-}
-
-.inv-table th,
-.inv-table td {
-  border: 1px solid #ccc;
-  padding: 8px;
-  text-align: center;
-  word-wrap: break-word;
-}
-
-.inv-table th {
-  background-color: #f5f5f5;
-  font-weight: 600;
-}
-
-.inv-table th:nth-child(1),
-.inv-table td:nth-child(1) {
-  width: 30%;
-}
-
-.inv-table th:not(:first-child),
-.inv-table td:not(:first-child) {
-  width: 70% / 5;
-}
-
-.overAll {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  padding: 20px;
-  gap: 10px;
-}
-
-.overAll-div {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  justify-content: space-between;
-  gap: 5px;
-}
-
-.prv-inv .overAll-div>div {
-  display: flex !important;
-  flex-direction: row !important;
-  justify-content: space-between !important;
-  width: 100%;
-}
+    .div-inv-num {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
 
 
-.overAll-div span {
-  font-size: 18px;
-}
+    .inv.details {
+      margin-top: 50px;
+      display: grid;
+      grid-template-columns: 1.5fr 2.5fr;
+      align-items: center;
+      justify-items: end;
+      width: 100%;
+    }
 
-.overAll-grand {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  justify-content: center;
-}
+    .inv-ctm-name {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
 
-.overAll-grand h2 {
-  margin: 0;
-}
+    .inv.details span {
+      font-size: 2rem;
+      font-weight: bolder;
+      font-style: italic;
+    }
 
-.overAll-grand span {
-  margin-top: 5px;
-  font-size: larger;
-  background-color: rgb(225, 213, 213);
-  padding: 5px;
-  border-radius: 5px;
-}
+    .para-div {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      text-align: end;
+    }
 
-.footer {
-  position: running(footer);
-  text-align: left;
-  margin-top: 40px;
-  font-size: 13px;
-  color: #333;
-  border-top: 1px solid #ccc;
-  padding-top: 5px;
-}
+    .inv.details p {
+      font-size: 14px;
+      color: #333;
+      margin: 0;
+    }
 
-.footer div {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
+    .inv.details div strong {
+      margin: 0;
+    }
 
-.footer div p {
-  margin: 0;
-}
+    .inv.details div hr {
+      margin: 0;
+    }
 
-.floating-btns {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  z-index: 999;
-}
+    .inv-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 50px;
+      font-size: 14px;
+      table-layout: fixed;
+    }
 
-.btn-dwn {
-  background-color: #7cd8c1;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  font-size: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-}
+    .inv-table th,
+    .inv-table td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+      word-wrap: break-word;
+    }
 
-.btn-dwn:hover {
-  transform: scale(1.1);
-  background-color: #156b56;
-}
+    .inv-table th {
+      background-color: #f5f5f5;
+      font-weight: 600;
+    }
 
-#hrA{
-background-color: black;
-width: 100%;
-}
-#strongA{
-     font-size: 15px;
-}
-#hrB{
-  background-color: black;
-  height: 1px;
-  border: none;
-}
+    .inv-table th:nth-child(1),
+    .inv-table td:nth-child(1) {
+      width: 30%;
+    }
 
+    .inv-table th:not(:first-child),
+    .inv-table td:not(:first-child) {
+      width: 70% / 5;
+    }
+
+    .overAll {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding: 20px;
+      gap: 10px;
+    }
+
+    .overAll-div {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      justify-content: space-between;
+      gap: 5px;
+    }
+
+    .prv-inv .overAll-div>div {
+      display: flex !important;
+      flex-direction: row !important;
+      justify-content: space-between !important;
+      width: 100%;
+    }
+
+
+    .overAll-div span {
+      font-size: 18px;
+    }
+
+    .overAll-grand {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      justify-content: center;
+    }
+
+    .overAll-grand h2 {
+      margin: 0;
+    }
+
+    .overAll-grand span {
+      margin-top: 5px;
+      font-size: larger;
+      background-color: rgb(225, 213, 213);
+      padding: 5px;
+      border-radius: 5px;
+    }
+
+    .footer {
+      position: running(footer);
+      text-align: left;
+      margin-top: 40px;
+      font-size: 13px;
+      color: #333;
+      border-top: 1px solid #ccc;
+      padding-top: 5px;
+    }
+
+    .footer div {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .footer div p {
+      margin: 0;
+    }
+
+    .floating-btns {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 999;
+    }
+
+    .btn-dwn {
+      background-color: #7cd8c1;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .btn-dwn:hover {
+      transform: scale(1.1);
+      background-color: #156b56;
+    }
+
+    #hrA {
+      background-color: black;
+      width: 100%;
+    }
+
+    #strongA {
+      font-size: 15px;
+    }
+
+    #hrB {
+      background-color: black;
+      height: 1px;
+      border: none;
+    }
   </style>
 </head>
 
@@ -260,113 +263,150 @@ width: 100%;
 
   <div class='prv-inv-wrapper'>
 
-      <div class='prv-inv'>
+    <div class='prv-inv'>
 
-        <div class='header-style'>
-          <div class='prv-header-inv'>
-            <!-- <img class='logo-img' src={logo} alt="img" /> -->
-            <h1>INVOICE</h1>
+      <div class='header-style'>
+        <div class='prv-header-inv'>
+          <img class="logo-img" src="http://localhost:3000/logo.png" />
+
+          <h1>INVOICE</h1>
+        </div>
+        <div class='div-inv-num'>
+          <div>
+            <span>Invoice Number : </span>
+            <strong>
+              <%= invoiceData.invoice.invoiceNumber %>
+            </strong>
           </div>
-          <div class='div-inv-num'>
-            <div>
-              <span>Invoice Number : </span>
-              <strong><%= invoiceData.invoice.invoiceNumber %></strong>
-            </div>
-            <div>
-              <span>Date of Issue : </span>
-              <strong><%= invoiceData.date %></strong>
+          <div>
+            <span>Date of Issue : </span>
+            <strong>
+              <%= invoiceData.date %>
+            </strong>
+          </div>
+        </div>
+      </div>
+      <hr />
+
+      <div class='inv-content'>
+
+        <div class='inv details'>
+          <div class='inv-owr-name'>
+            <span>
+              <%= invoiceData.owner.business %>
+            </span>
+            <p>GSTIN : <%= invoiceData.owner.gst?.toUpperCase() || "-" %>
+            </p>
+          </div>
+          <div class='para-div'>
+            <div class='inv-ctm-name'>
+              <p>Invoice To:</p>
+              <hr id="hrA" />
+              <strong>
+                <%= invoiceData.invoice.business_name %>
+              </strong>
+              <p>GSTIN : <%= invoiceData.invoice.gst?.toUpperCase() || "-" %>
+              </p>
+              <p><i class="bi bi-geo-alt-fill"></i>
+                <%= invoiceData.invoice.address %>
+              </p>
+              <p><i class="bi bi-envelope-fill"></i>
+                <%= invoiceData.invoice.email %>
+              </p>
+              <p><i class="bi bi-telephone-fill"></i>
+                <%= invoiceData.invoice.phone %>
+              </p>
             </div>
           </div>
         </div>
-        <hr />
 
-        <div class='inv-content'>
+        <table class='inv-table'>
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Unit Price (₹)</th>
+              <th>Quantity</th>
+              <th>GST (%)</th>
+              <th>Discount (%)</th>
+              <th>Total Amount (₹)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% invoiceData.invoice.items.forEach((itm)=> {
+              const base = itm.unit_price * itm.quantity;
+              const gstAmount = (base * itm.gst_per) / 100;
+              const discountAmount = (base * itm.discount) / 100;
+              const total = base + gstAmount - discountAmount; %>
 
-          <div class='inv details'>
-            <div class='inv-owr-name'>
-              <span><%= invoiceData.owner.business %></span>
-              <p>GSTIN : <%= invoiceData.owner.gst?.toUpperCase() || "-" %></p>
-            </div>
-            <div class='para-div'>
-              <div class='inv-ctm-name'>
-                <p>Invoice To:</p>
-                <hr id="hrA" />
-                <strong><%= invoiceData.invoice.business_name %></strong>
-                <p>GSTIN : <%= invoiceData.invoice.gst?.toUpperCase() || "-" %></p>
-                <p><i class="bi bi-geo-alt-fill"></i> <%= invoiceData.invoice.address %></p>
-                <p><i class="bi bi-envelope-fill"></i> <%= invoiceData.invoice.email %></p>
-                <p><i class="bi bi-telephone-fill"></i> <%= invoiceData.invoice.phone %></p>
-              </div>
-            </div>
-          </div>
-
-          <table class='inv-table'>
-            <thead>
               <tr>
-                <th>Item</th>
-                <th>Unit Price (₹)</th>
-                <th>Quantity</th>
-                <th>GST (%)</th>
-                <th>Discount (%)</th>
-                <th>Total Amount (₹)</th>
+                <td>
+                  <%=itm.item_name%>
+                </td>
+                <td>
+                  <%=itm.unit_price.toFixed(2)%>
+                </td>
+                <td>
+                  <%=itm.quantity%>
+                </td>
+                <td>
+                  <%=itm.gst_per || "-" %>
+                </td>
+                <td>
+                  <%=itm.discount || "-" %>
+                </td>
+                <td>
+                  <%=total.toFixed(2)%>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              <% invoiceData.invoice.items.forEach((itm) => {
-                const base = itm.unit_price * itm.quantity;
-                const gstAmount = (base * itm.gst_per) / 100;
-                const discountAmount = (base * itm.discount) / 100;
-                const total = base + gstAmount - discountAmount; %>
-
-                  <tr>
-                    <td><%=itm.item_name%></td>
-                    <td><%=itm.unit_price.toFixed(2)%></td>
-                    <td><%=itm.quantity%></td>
-                    <td><%=itm.gst_per || "-"%></td>
-                    <td><%=itm.discount || "-"%></td>
-                    <td><%=total.toFixed(2)%></td>
-                  </tr>
               <%})%>
 
-            </tbody>
-          </table>
+          </tbody>
+        </table>
 
-          <div class='overAll'>
-            <div class='overAll-grand'>
-              <h2>Net Payable Amount</h2>
-              <span>₹ <%= invoiceData.invoice.grand_total.toFixed(2) %></span>
-            </div>
-            <div class='overAll-div'>
-              <div>
-                <span>Subtotal (Before Tax & Discount) :</span> <span>₹ <%= invoiceData.invoice.sub_total.toFixed(2) %></span>
-              </div>
-              <div>
-                <span>Total Discount :</span> <span> ₹ <%= invoiceData.invoice.total_discount.toFixed(2) %></span>
-              </div>
-              <div>
-                <span>Total Tax (GST) :</span> <span> ₹ <%= invoiceData.invoice.total_gst.toFixed(2) %></span>
-              </div>
-              <div>
-                <span>Grand Total (₹) :</span> <span> ₹ <%= invoiceData.invoice.grand_total.toFixed(2) %></span>
-              </div>
-            </div>
+        <div class='overAll'>
+          <div class='overAll-grand'>
+            <h2>Net Payable Amount</h2>
+            <span>₹ <%= invoiceData.invoice.grand_total.toFixed(2) %></span>
           </div>
-
-        </div>
-
-        <div class='footer'>
-          <strong id="strongA">Have a great day and stay connected!</strong>
-          <hr id="hrB"/>
-
-          <div>
-            <p><i class="bi bi-geo-alt-fill"></i> <%= invoiceData.owner.address %></p>
-            <p><i class="bi bi-envelope-fill"></i> <%= invoiceData.owner.email %></p>
-            <p><i class="bi bi-telephone-fill"></i> <%= invoiceData.owner.phone %></p>
+          <div class='overAll-div'>
+            <div>
+              <span>Subtotal (Before Tax & Discount) :</span> <span>₹ <%= invoiceData.invoice.sub_total.toFixed(2) %>
+                  </span>
+            </div>
+            <div>
+              <span>Total Discount :</span> <span> ₹ <%= invoiceData.invoice.total_discount.toFixed(2) %></span>
+            </div>
+            <div>
+              <span>Total Tax (GST) :</span> <span> ₹ <%= invoiceData.invoice.total_gst.toFixed(2) %></span>
+            </div>
+            <div>
+              <span>Grand Total (₹) :</span> <span> ₹ <%= invoiceData.invoice.grand_total.toFixed(2) %></span>
+            </div>
           </div>
         </div>
 
       </div>
+
+      <div class='footer'>
+        <strong id="strongA">Have a great day and stay connected!</strong>
+        <hr id="hrB" />
+
+        <div>
+          <p><i class="bi bi-geo-alt-fill"></i>
+            <%= invoiceData.owner.address %>
+          </p>
+          <p><i class="bi bi-envelope-fill"></i>
+            <%= invoiceData.owner.email %>
+          </p>
+          <p><i class="bi bi-telephone-fill"></i>
+            <%= invoiceData.owner.phone %>
+          </p>
+        </div>
+      </div>
+
     </div>
+  </div>
 
 </body>
+
 </html>

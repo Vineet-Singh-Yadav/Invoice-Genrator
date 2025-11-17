@@ -59,13 +59,14 @@ export default function InvoicePreview() {
 
   const downloadPDF = async () => {
     try {
+      toast.success("Downloading PDF");
       const finalId =  decodedId || invoicePreview.invoiceNumber;
       const encodedId = encodeURIComponent(finalId);
 
       const response = await fetch(`${import.meta.env.VITE_SERVER_API}/invoice/createPdf/${encodedId}`, {
         method: 'GET'
       });
-
+      
       const blob = await response.blob();
       saveAs(blob, `${encodedId}.pdf`);
     } catch (error) {

@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react'
 import logo from "../assets/invoicelogo.png";
 import "../css/landing.css"
 import { useNavigate } from 'react-router-dom';

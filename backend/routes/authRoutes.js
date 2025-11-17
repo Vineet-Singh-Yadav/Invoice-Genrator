@@ -42,7 +42,6 @@ router.post("/register", [
     res.json({ success, authToken, message: "User registered successfully!" });
 
   } catch (error) {
-    console.error(error.message);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
@@ -73,7 +72,6 @@ router.post("/login", [
     res.json({ success, authToken, message: "Login successful!" });
 
   } catch (error) {
-    console.error(err.message);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
@@ -82,10 +80,8 @@ router.post("/login", [
 router.get("/getUser", [authVerify], async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.user.id }).select("-password");
-    console.log(user);
     res.json({ success: true, user });
   } catch (error) {
-    console.error(error.message);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
@@ -130,7 +126,6 @@ router.post(
       success = true;
       res.status(200).json({ success, user: safeUser, message: "User info updated successfully" });
     } catch (error) {
-      console.error(error.message);
       res.status(500).json({ success: false, message: "Internal server error" });
     }
   }
@@ -171,7 +166,6 @@ router.post(
       success = true;
       res.status(200).json({ success, message: "Password updated successfully" });
     } catch (error) {
-      console.error(error.message);
       res.status(500).json({ success: false, message: "Internal server error" });
     }
   }

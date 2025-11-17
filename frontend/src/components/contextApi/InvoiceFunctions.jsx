@@ -20,7 +20,7 @@ export default function InvoiceFunctions(props) {
           const json = await response.json();
     
           if (json.success) {
-            setOwner(json.user);
+            setOwner(json.user); 
             return (json.user); 
           }
         } catch (error) {
