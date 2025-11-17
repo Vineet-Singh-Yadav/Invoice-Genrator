@@ -10,7 +10,9 @@ import cors from "cors"
 dotenv.config();
 connectDB(); 
 const app = express();
-app.use(cors());
+
+const allowedOrigin = process.env.FRONTEND_URL
+app.use(cors({origin: allowedOrigin, credentials: true}));
 
 const port = process.env.PORT;
 

@@ -267,8 +267,7 @@
 
       <div class='header-style'>
         <div class='prv-header-inv'>
-          <img class="logo-img" src="http://localhost:3000/logo.png" />
-
+          <img class="logo-img" src="<%= logoUrl %>" alt="logo-img" />
           <h1>INVOICE</h1>
         </div>
         <div class='div-inv-num'>
@@ -371,7 +370,7 @@
           <div class='overAll-div'>
             <div>
               <span>Subtotal (Before Tax & Discount) :</span> <span>₹ <%= invoiceData.invoice.sub_total.toFixed(2) %>
-                  </span>
+              </span>
             </div>
             <div>
               <span>Total Discount :</span> <span> ₹ <%= invoiceData.invoice.total_discount.toFixed(2) %></span>

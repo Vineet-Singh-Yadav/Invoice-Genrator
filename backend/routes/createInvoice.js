@@ -116,7 +116,7 @@ router.get("/createPdf/:invoiceNumber", async (req, res) => {
 
         const tampletePath = path.join(process.cwd(), "templates", "pdfTemplate.ejs");
 
-        const html = await ejs.renderFile(tampletePath, { invoiceData });
+        const html = await ejs.renderFile(tampletePath, { invoiceData, logoUrl: process.env.LOGO_URL });
 
         const broswer = await puppeteer.launch({
             headless: "new",
