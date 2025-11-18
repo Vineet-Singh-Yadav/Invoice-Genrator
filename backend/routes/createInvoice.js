@@ -177,7 +177,7 @@ router.get("/createPdf/:invoiceNumber", async (req, res) => {
 
         const browser = await chromium.launch({
             headless: true,
-            channel: "chromium",   // FORCE using normal Chromium
+            executablePath: "/opt/render/.cache/ms-playwright/chromium-1194/chrome-linux/chrome",//correct path for Chromium already downloaded by Playwright on Render
             args: ["--no-sandbox", "--disable-setuid-sandbox"]
         });
 
