@@ -119,8 +119,17 @@ router.get("/createPdf/:invoiceNumber", async (req, res) => {
         const html = await ejs.renderFile(tampletePath, { invoiceData, logoUrl: process.env.LOGO_URL });
 
         const broswer = await puppeteer.launch({
-            headless: "new",
-            args: ["--no-sandbox", "--disable-setuid-sandbox"]
+            // headless: "new",
+            // args: ["--no-sandbox", "--disable-setuid-sandbox"]
+            headless: true,
+            args: [
+                "--no-sandbox",
+                "--disable-setuid-sandbox",
+                "--disable-dev-shm-usage",
+                "--disable-gpu",
+                "--no-zygote",
+                "--single-process"
+            ]
         });
         const page = await broswer.newPage();
 
