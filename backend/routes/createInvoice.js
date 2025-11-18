@@ -94,7 +94,7 @@ router.get("/getInvoice/:invoiceNumber", async (req, res) => {
     }
 });
 
-router.get("/createPdf/:invoiceNumber(*)", async (req, res) => {
+router.get("/createPdf/:invoiceNumber", async (req, res) => {
     try {
         const { invoiceNumber } = req.params;
         const decodedInvoiceNumber = decodeURIComponent(invoiceNumber);
