@@ -153,7 +153,7 @@ router.get("/getInvoice/:invoiceNumber", async (req, res) => {
 //I have change the puppeteer to Playwright because during the build on the free render, Render blocks the large download
 //And puppeteer try to download the full chromium browser 
 //So i used the Playwright, it have its own browser in the NPM package so no need to download during the render build
-// but we have to use npx playwright install in loacl because the browser not download properly in local machine
+// but we have to use "npm install && npx playwright install chromium" in build command  because the browser not download properly in local machine
 router.get("/createPdf/:invoiceNumber", async (req, res) => {
     try {
         const { invoiceNumber } = req.params;
@@ -177,6 +177,7 @@ router.get("/createPdf/:invoiceNumber", async (req, res) => {
 
         const browser = await chromium.launch({
             headless: true,
+            channel: "chromium",   // FORCE using normal Chromium
             args: ["--no-sandbox", "--disable-setuid-sandbox"]
         });
 
