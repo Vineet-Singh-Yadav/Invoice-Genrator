@@ -6,6 +6,7 @@ import Business from "../models/business.js";
 import path from 'path';
 import ejs from 'ejs';
 import puppeteer from 'puppeteer';
+import { chromium } from "playwright";
 
 
 const router = express.Router();
@@ -94,47 +95,93 @@ router.get("/getInvoice/:invoiceNumber", async (req, res) => {
     }
 });
 
+// router.get("/createPdf/:invoiceNumber", async (req, res) => {
+//     try {
+//         const { invoiceNumber } = req.params;
+//         const decodedInvoiceNumber = decodeURIComponent(invoiceNumber);
+//         const invoice = await Invoice.findOne({ invoiceNumber: decodedInvoiceNumber });
+
+//         if (!invoice) {
+//             return res.status(404).json({ success: false, message: "Invoice not found" });
+//         }
+
+//         const owner = await Business.findOne({ userId: invoice.userId });
+
+//         const date = new Date(invoice.createdAt).toLocaleDateString();
+
+//         const invoiceData = {
+//             invoice,
+//             owner,
+//             date
+//         }
+
+//         const tampletePath = path.join(process.cwd(), "templates", "pdfTemplate.ejs");
+
+//         const html = await ejs.renderFile(tampletePath, { invoiceData, logoUrl: process.env.LOGO_URL });
+
+//         const broswer = await puppeteer.launch({
+//             headless: "new",
+//             args: ["--no-sandbox", "--disable-setuid-sandbox"]
+//         });
+//         const page = await broswer.newPage();
+
+//         await page.setContent(html, { waitUntil: "networkidle0" });
+//         await page.emulateMediaType("screen");
+
+//         const pdf = await page.pdf({
+//             format: "A4",
+//             landscape: false,
+//             printBackground: true,
+//             margin: { top: "10mm", bottom: "10mm", left: "10mm", right: "10mm" }
+//         });
+
+//         await broswer.close();
+
+//         res.set({
+//             "Content-Type": "application/pdf",
+//             "Content-Disposition": `attachment; filename=invoice_${invoiceNumber}.pdf`
+//         });
+
+//         res.send(pdf);
+//     } catch (error) {
+//         console.log(error)
+//         res.status(500).json({ success: false, msg: "Error generating PDF" });
+//     }
+// });
+
+
+//I have change the puppeteer to Playwright because during the build on the free render, Render blocks the large download
+//And puppeteer try to download the full chromium browser 
+//So i used the Playwright, it have its own browser in the NPM package so no need to download during the render build
+// but we have to use npx playwright install in loacl because the browser not download properly in local machine
 router.get("/createPdf/:invoiceNumber", async (req, res) => {
     try {
         const { invoiceNumber } = req.params;
         const decodedInvoiceNumber = decodeURIComponent(invoiceNumber);
-        const invoice = await Invoice.findOne({ invoiceNumber: decodedInvoiceNumber });
 
+        const invoice = await Invoice.findOne({ invoiceNumber: decodedInvoiceNumber });
         if (!invoice) {
             return res.status(404).json({ success: false, message: "Invoice not found" });
         }
 
         const owner = await Business.findOne({ userId: invoice.userId });
-
         const date = new Date(invoice.createdAt).toLocaleDateString();
 
-        const invoiceData = {
-            invoice,
-            owner,
-            date
-        }
+        const invoiceData = { invoice, owner, date };
 
-        const tampletePath = path.join(process.cwd(), "templates", "pdfTemplate.ejs");
-
-        const html = await ejs.renderFile(tampletePath, { invoiceData, logoUrl: process.env.LOGO_URL });
-
-        const broswer = await puppeteer.launch({
-            // headless: "new",
-            // args: ["--no-sandbox", "--disable-setuid-sandbox"]
-            headless: true,
-            args: [
-                "--no-sandbox",
-                "--disable-setuid-sandbox",
-                "--disable-dev-shm-usage",
-                "--disable-gpu",
-                "--no-zygote",
-                "--single-process"
-            ]
+        const templatePath = path.join(process.cwd(), "templates", "pdfTemplate.ejs");
+        const html = await ejs.renderFile(templatePath, {
+            invoiceData,
+            logoUrl: process.env.LOGO_URL
         });
-        const page = await broswer.newPage();
 
-        await page.setContent(html, { waitUntil: "networkidle0" });
-        await page.emulateMediaType("screen");
+        const browser = await chromium.launch({
+            headless: true,
+            args: ["--no-sandbox", "--disable-setuid-sandbox"]
+        });
+
+        const page = await browser.newPage();
+        await page.setContent(html, { waitUntil: "networkidle" });
 
         const pdf = await page.pdf({
             format: "A4",
@@ -143,7 +190,7 @@ router.get("/createPdf/:invoiceNumber", async (req, res) => {
             margin: { top: "10mm", bottom: "10mm", left: "10mm", right: "10mm" }
         });
 
-        await broswer.close();
+        await browser.close();
 
         res.set({
             "Content-Type": "application/pdf",
@@ -152,9 +199,10 @@ router.get("/createPdf/:invoiceNumber", async (req, res) => {
 
         res.send(pdf);
     } catch (error) {
-        console.log(error)
+        console.error(error);
         res.status(500).json({ success: false, msg: "Error generating PDF" });
     }
 });
+
 
 export default router;
