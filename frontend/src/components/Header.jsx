@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import logo from "../assets/invoicelogo.png";
-import UpdateUserInfo from './updateUserInfo'
+import UpdateUserInfo from './UpdateUserInfo'
 import ChnagePassword from './ChnagePassword';
 import '../css/header.css';
 import { useNavigate } from "react-router-dom"

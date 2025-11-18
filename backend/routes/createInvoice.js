@@ -94,7 +94,7 @@ router.get("/getInvoice/:invoiceNumber", async (req, res) => {
     }
 });
 
-router.get("/createPdf/:invoiceNumber", async (req, res) => {
+router.get("/createPdf/:invoiceNumber(*)", async (req, res) => {
     try {
         const { invoiceNumber } = req.params;
         const decodedInvoiceNumber = decodeURIComponent(invoiceNumber);
@@ -143,6 +143,7 @@ router.get("/createPdf/:invoiceNumber", async (req, res) => {
 
         res.send(pdf);
     } catch (error) {
+        console.log(error)
         res.status(500).json({ success: false, msg: "Error generating PDF" });
     }
 });
