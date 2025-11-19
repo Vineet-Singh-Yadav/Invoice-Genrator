@@ -2,7 +2,6 @@
     margin: 20px;
     margin-top: 0;
     background-color: white;
-    padding: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     border: 1px solid black;
     overflow-x: auto;
@@ -17,6 +16,7 @@
 .table-div table thead {
     background-color: #d2c5c5;
     border: none;
+    height: 30px;
 }
 
 #tr:hover {
@@ -31,7 +31,6 @@
 
     .table-div {
         margin: 5px;
-        padding: 8px;
         box-shadow: none;
         border-radius: 5px;
     }
@@ -46,7 +45,7 @@
         padding: 6px;
     }
 
-    .tablt-div td {
+    .table-div td {
         border-bottom: 1px dotted black;
     }
 }
@@ -55,7 +54,6 @@
 @media screen and (max-width: 480px) {
     .table-div {
         margin: 3px;
-        padding: 6px;
     }
 
     .table-div table {
@@ -68,7 +66,7 @@
         padding: 5px;
     }
 
-    .tablt-div td {
+    .table-div td {
         border-bottom: 1px dotted black;
     }
 }

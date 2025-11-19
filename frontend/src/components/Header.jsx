@@ -52,7 +52,7 @@ export default function Header({setIsActive}) {
     <>
       <div className='header'>
         <button className='sidebar-header'><i className="bi bi-menu-up"></i></button>
-        <div className='logo'>
+        <div className='logo logo-mobile'>
           <img src={logo} alt="logo" />
           <h1>Invonex</h1>
         </div>
