@@ -5,12 +5,18 @@ import ChnagePassword from './ChnagePassword';
 import '../css/header.css';
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify";
+import Sidebar from './Sidebar';
 
 export default function Header({ setIsActive }) {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({});
   const [openDropdown, setOpenDropdown] = useState(false);
   const token = localStorage.getItem('token');
+  const [showSidebar, setShowSidebar] = useState(false);
+
+  const sidebarDropdown = () =>{
+    setShowSidebar(!showSidebar);
+  }
 
   const fetchUser = async () => {
     try {
@@ -52,8 +58,9 @@ export default function Header({ setIsActive }) {
     <>
       <div className='header'>
 
-        <i class="bi bi-list"></i>
-        
+        <i className="bi bi-list sidebar-header" onClick={sidebarDropdown}></i>
+        {showSidebar && <div className='dropdownSidebar'> <Sidebar setIsActive={setIsActive} setShowSidebar={setShowSidebar}/> </div>}
+
         <div className='logo logo-mobile'>
           <img src={logo} alt="logo" />
           <h1>Invonex</h1>
