@@ -7,6 +7,7 @@ import path from 'path';
 import ejs from 'ejs';
 import puppeteer from 'puppeteer';
 import { chromium } from "playwright";
+import pdf from "html-pdf";
 
 
 const router = express.Router();
@@ -154,6 +155,58 @@ router.get("/getInvoice/:invoiceNumber", async (req, res) => {
 //And puppeteer try to download the full chromium browser 
 //So i used the Playwright, it have its own browser in the NPM package so no need to download during the render build
 // but we have to use "npm install && npx playwright install chromium" in build command  because the browser not download properly in local machine
+// router.get("/createPdf/:invoiceNumber", async (req, res) => {
+//     try {
+//         const { invoiceNumber } = req.params;
+//         const decodedInvoiceNumber = decodeURIComponent(invoiceNumber);
+
+//         const invoice = await Invoice.findOne({ invoiceNumber: decodedInvoiceNumber });
+//         if (!invoice) {
+//             return res.status(404).json({ success: false, message: "Invoice not found" });
+//         }
+
+//         const owner = await Business.findOne({ userId: invoice.userId });
+//         const date = new Date(invoice.createdAt).toLocaleDateString();
+
+//         const invoiceData = { invoice, owner, date };
+
+//         const templatePath = path.join(process.cwd(), "templates", "pdfTemplate.ejs");
+//         const html = await ejs.renderFile(templatePath, {
+//             invoiceData,
+//             logoUrl: process.env.LOGO_URL
+//         }); 
+
+//         const browser = await chromium.launch({
+//             headless: true,
+//             executablePath: "/opt/render/.cache/ms-playwright/chromium-1194/chrome-linux/chrome",//correct path for Chromium already downloaded by Playwright on Render
+//             args: ["--no-sandbox", "--disable-setuid-sandbox"]
+//         });
+
+//         const page = await browser.newPage();
+//         await page.setContent(html, { waitUntil: "networkidle" });
+
+//         const pdf = await page.pdf({
+//             format: "A4",
+//             landscape: false,
+//             printBackground: true,
+//             margin: { top: "10mm", bottom: "10mm", left: "10mm", right: "10mm" }
+//         });
+
+//         await browser.close();
+
+//         res.set({
+//             "Content-Type": "application/pdf",
+//             "Content-Disposition": `attachment; filename=invoice_${invoiceNumber}.pdf`
+//         });
+
+//         res.send(pdf);
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ success: false, msg: "Error generating PDF" });
+//     }
+// });
+
+
 router.get("/createPdf/:invoiceNumber", async (req, res) => {
     try {
         const { invoiceNumber } = req.params;
@@ -169,41 +222,46 @@ router.get("/createPdf/:invoiceNumber", async (req, res) => {
 
         const invoiceData = { invoice, owner, date };
 
+        // Load EJS template
         const templatePath = path.join(process.cwd(), "templates", "pdfTemplate.ejs");
+
+        // Render HTML from EJS
         const html = await ejs.renderFile(templatePath, {
             invoiceData,
             logoUrl: process.env.LOGO_URL
         });
 
-        const browser = await chromium.launch({
-            headless: true,
-            executablePath: "/opt/render/.cache/ms-playwright/chromium-1194/chrome-linux/chrome",//correct path for Chromium already downloaded by Playwright on Render
-            args: ["--no-sandbox", "--disable-setuid-sandbox"]
-        });
-
-        const page = await browser.newPage();
-        await page.setContent(html, { waitUntil: "networkidle" });
-
-        const pdf = await page.pdf({
+        // PDF options
+        const options = {
             format: "A4",
-            landscape: false,
-            printBackground: true,
-            margin: { top: "10mm", bottom: "10mm", left: "10mm", right: "10mm" }
+            orientation: "portrait",
+            border: {
+                top: "10mm",
+                bottom: "10mm",
+                left: "10mm",
+                right: "10mm"
+            }
+        };
+
+        // Convert HTML to PDF
+        pdf.create(html, options).toBuffer((err, buffer) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ success: false, msg: "PDF generation error" });
+            }
+
+            res.set({
+                "Content-Type": "application/pdf",
+                "Content-Disposition": `attachment; filename=invoice_${invoiceNumber}.pdf`
+            });
+
+            res.send(buffer);
         });
 
-        await browser.close();
-
-        res.set({
-            "Content-Type": "application/pdf",
-            "Content-Disposition": `attachment; filename=invoice_${invoiceNumber}.pdf`
-        });
-
-        res.send(pdf);
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, msg: "Error generating PDF" });
     }
 });
-
 
 export default router;
