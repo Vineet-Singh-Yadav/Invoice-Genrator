@@ -34,9 +34,13 @@
         padding: 8px;
         box-shadow: none; 
         border-radius: 5px;
+        overflow-x: auto;    
+        overflow-y: hidden;
+        width: 100%;
     }
 
     .table-div table {
+      min-width: 650px; 
         font-size: 14px; 
     }
 
@@ -54,6 +58,7 @@
     }
 
     .table-div table {
+      min-width: 650px; 
         font-size: 13px;
     }
 
