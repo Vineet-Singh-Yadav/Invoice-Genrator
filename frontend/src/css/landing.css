@@ -113,9 +113,13 @@
         display: none;
     }
 
+    .centerDiv {
+        margin-top: 2px;
+    }
+
     .btn {
         flex-direction: column;
-        gap: 15px;
+        gap: 10px;
         width: 100%;
         align-items: center;
     }
