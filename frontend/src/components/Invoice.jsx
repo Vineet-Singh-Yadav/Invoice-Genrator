@@ -75,7 +75,7 @@ export default function Invoice({setIsActive}) {
 
                   <td>{inv.invoiceNumber}</td>
                   <td>{inv.business_name}</td>
-                  <td>{inv.grand_total}</td>
+                  <td>{inv.grand_total.toFixed(2)}</td>
                   <td>
                     <button onClick={(e) => handleShare(inv, e)}>Share</button>
                   </td>
