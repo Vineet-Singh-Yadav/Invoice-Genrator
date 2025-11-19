@@ -114,7 +114,7 @@
     }
 
     .centerDiv {
-        margin-top: 2px;
+        margin-top: 20px;
     }
 
     .btn {
@@ -139,6 +139,7 @@
 
     .limg img {
         width: 80%;
+        height: 50% !important;
     }
 
     .authBtn2 {
@@ -184,5 +185,6 @@
 
     .limg img {
         width: 90%;
+        height: 50%;
     }
 }
