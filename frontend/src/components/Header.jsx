@@ -6,10 +6,10 @@ import '../css/header.css';
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify";
 
-export default function Header({setIsActive}) {
-  const navigate =useNavigate();
+export default function Header({ setIsActive }) {
+  const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({});
-  const [openDropdown, setOpenDropdown] = useState(false); 
+  const [openDropdown, setOpenDropdown] = useState(false);
   const token = localStorage.getItem('token');
 
   const fetchUser = async () => {
@@ -23,9 +23,9 @@ export default function Header({setIsActive}) {
       });
 
       const json = await response.json();
-      if(json.success){
-      setUserInfo(json.user);
-      }else{
+      if (json.success) {
+        setUserInfo(json.user);
+      } else {
         toast.error(json.message);
       }
     } catch (error) {
@@ -41,9 +41,9 @@ export default function Header({setIsActive}) {
   const firstLetter = userInfo?.name ? userInfo.name.charAt(0).toUpperCase() : "";
   const fullName = userInfo?.name ? userInfo.name.toUpperCase() : '';
 
-  const handleLogout = ()=>{
-    localStorage.removeItem("token"); 
-    toast.success("Logged out successfully!"); 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    toast.success("Logged out successfully!");
     navigate("/landing");
     setOpenDropdown(false);
   }
@@ -51,7 +51,9 @@ export default function Header({setIsActive}) {
   return (
     <>
       <div className='header'>
-        <button className='sidebar-header'><i className="bi bi-menu-up"></i></button>
+
+        <i class="bi bi-list"></i>
+        
         <div className='logo logo-mobile'>
           <img src={logo} alt="logo" />
           <h1>Invonex</h1>
@@ -80,10 +82,10 @@ export default function Header({setIsActive}) {
                 <h4>{fullName}</h4>
                 <p>{userInfo.email}</p>
               </div>
-              <UpdateUserInfo userInfo={userInfo} fetchUser={fetchUser} setOpenDropdown={setOpenDropdown}/>
+              <UpdateUserInfo userInfo={userInfo} fetchUser={fetchUser} setOpenDropdown={setOpenDropdown} />
             </div>
-            <div className='item-menu'onClick={()=>setIsActive('profile')}>Business Profile</div>
-            <div className='item-menu'> <ChnagePassword setOpenDropdown={setOpenDropdown}/> </div>
+            <div className='item-menu' onClick={() => setIsActive('profile')}>Business Profile</div>
+            <div className='item-menu'> <ChnagePassword setOpenDropdown={setOpenDropdown} /> </div>
             <div className='logout' onClick={handleLogout}>Logout</div>
           </div>
         }

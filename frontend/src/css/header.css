@@ -191,10 +191,6 @@ h1 {
     display: none;
   }
 
-  .logo-mobile{
-    margin-left: 0 !important;
-  }
-
   .header {
     display: flex;
     justify-content: space-between;
@@ -210,8 +206,42 @@ h1 {
     align-items: center;
   }
 
+  .logo-mobile {
+    width: auto !important;
+    height: auto !important;
+  }
+
+  .logo-mobile img {
+  display: none;
+  }
+
+  .logo-mobile h1 {
+    color: #195042 !important;
+    margin: 0 !important;
+    font-size: larger !important;
+  }
+
   .sidebar-header {
     display: block;
-    
+  }
+
+  .userDropDown {
+    padding: 0;
+  }
+
+  .bi-list{
+    padding: 5px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .logo-mobile h1 {
+    color: #195042 !important;
+    margin: 0 !important;
+    font-size: x-large !important;
+  }
+
+  .logo-mobile {
+    margin: 0 !important;
   }
 }
