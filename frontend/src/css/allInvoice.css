@@ -23,6 +23,10 @@
     cursor: pointer;
 }
 
+.table-div td {
+    border-bottom: 1px dotted black;
+}
+
 @media screen and (max-width: 768px) {
     .div-main {
         margin: 0;

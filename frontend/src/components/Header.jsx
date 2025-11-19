@@ -91,7 +91,7 @@ export default function Header({ setIsActive }) {
               </div>
               <UpdateUserInfo userInfo={userInfo} fetchUser={fetchUser} setOpenDropdown={setOpenDropdown} />
             </div>
-            <div className='item-menu' onClick={() => setIsActive('profile')}>Business Profile</div>
+            <div className='item-menu' onClick={() => {setIsActive('profile'), setOpenDropdown(false)}}>Business Profile</div>
             <div className='item-menu'> <ChnagePassword setOpenDropdown={setOpenDropdown} /> </div>
             <div className='logout' onClick={handleLogout}>Logout</div>
           </div>
