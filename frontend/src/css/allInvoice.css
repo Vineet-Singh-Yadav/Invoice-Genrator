@@ -45,6 +45,10 @@
     .table-div th {
         padding: 6px;  
     }
+
+    .tablt-div td{
+        border-bottom: 1px dotted black;
+    }
 }
 
 
