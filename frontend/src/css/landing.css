@@ -1,22 +1,21 @@
-.landing{
+.landing {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     width: 90%;
-    margin: 0 auto;
-    margin-top: 20px;
+    margin: 20px auto 0 auto;
 }
 
-.logo img{
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
+.logo img {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
 }
 
-.logo h1{
-  color: #333;
+.logo h1 {
+    color: #333;
 }
 
-.authBtn{
+.authBtn {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -24,86 +23,162 @@
     font-size: 18px;
 }
 
-.authBtn button{
+.authBtn button {
     background-color: #195042;
     color: white;
-    padding: 7px;
-    padding-left: 20px ;
-    padding-right: 20px;
+    padding: 7px 20px;
     border-radius: 5px;
     cursor: pointer;
     font-size: 18px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
 }
 
-.authBtn button:hover{
+.authBtn button:hover {
     transform: scale(1.05);
 }
 
-.authBtn span{
+.authBtn span {
     cursor: pointer;
-    color: #333
+    color: #333;
 }
 
-.authBtn span:hover{
- transform: scale(1.2);
+.authBtn span:hover {
+    transform: scale(1.2);
 }
 
-.centerDiv{
-    margin: 20px;;
+.centerDiv {
+    margin: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.centerDiv h1{
+.centerDiv h1 {
     margin-bottom: 5px;
 }
 
-.subHeading{
+.subHeading {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.subHeading p{
+
+.subHeading p {
     margin: 0;
     font-style: oblique;
 }
 
-.btn{
+.btn {
     margin-top: 20px;
-   display: flex;
-   flex-direction: row;
-   gap: 20px; 
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
 }
 
-.btn button{
-   background-color: #195042;
+.btn button {
+    background-color: #195042;
     color: white;
-    padding: 7px;
-    padding-left: 20px ;
-    padding-right: 20px;
+    padding: 7px 20px;
     border-radius: 5px;
     cursor: pointer;
     font-size: 18px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
 }
 
-.btn button:hover{ 
+.btn button:hover {
     transform: scale(1.2);
 }
-.limg{
+
+.limg {
     margin: 50px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.limg img{
-    width: 50%;  
+.limg img {
+    width: 50%;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
+}
+
+.authBtn2 {
+    display: none;
 }
 
 
 
+@media screen and (max-width: 768px) {
 
+    .authBtn {
+        display: none;
+    }
+
+    .btn {
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+        align-items: center;
+    }
+
+    .btn button {
+        width: 80%;
+        max-width: 220px;
+        font-size: 16px;
+    }
+
+    .limg {
+        margin: 20px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .limg img {
+        width: 80%;
+    }
+
+    .authBtn2 {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-evenly;
+        margin: 20px;
+        gap: 5px;
+    }
+
+    .authBtn2 button {
+        background-color: #195042;
+        color: white;
+        padding: 7px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
+        flex: 1;
+        text-align: center;
+    }
+
+}
+
+@media screen and (max-width: 480px) {
+
+    .landing {
+        width: 95%;
+    }
+
+    .logo h1 {
+        font-size: 20px;
+    }
+
+    .btn button {
+        font-size: 15px;
+    }
+
+    .centerDiv h1 {
+        font-size: 22px;
+    }
+
+    .limg img {
+        width: 90%;
+    }
+}

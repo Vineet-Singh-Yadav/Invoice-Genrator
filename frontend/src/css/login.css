@@ -101,5 +101,38 @@ main {
   font-weight: 500;
   color: #333;
   font-style: normal;
+  cursor: pointer;
 }
 
+@media (max-width: 600px) {
+
+  .auth {
+    padding: 10px;
+  }
+
+  .auth form {
+    width: 90%;
+  }
+
+  .auth form input {
+    font-size: 13px;
+    padding: 7px 8px;
+  }
+
+  .auth form button {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .heading h2 {
+    font-size: 1.2em;
+  }
+
+  .heading p {
+    font-size: 13px;
+  }
+
+  .auth hr {
+    width: 40%;
+  }
+}

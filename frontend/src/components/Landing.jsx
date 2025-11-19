@@ -35,6 +35,11 @@ export default function Landing() {
             <div className='limg'>
                 <img src={inv} alt="Invoice Template" />
             </div>
+
+            <div className='authBtn2'>
+                <button onClick={() => navigate("/login")}>login</button>
+                <button onClick={() => navigate("/signup")}>Sign Up</button>
+            </div>
         </>
     )
 }
