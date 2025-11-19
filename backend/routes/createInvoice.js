@@ -95,107 +95,107 @@ router.get("/getInvoice/:invoiceNumber", async (req, res) => {
   }
 });
 
-// router.get("/createPdf/:invoiceNumber", async (req, res) => {
-//     try {
-//         const { invoiceNumber } = req.params;
-//         const decodedInvoiceNumber = decodeURIComponent(invoiceNumber);
-//         const invoice = await Invoice.findOne({ invoiceNumber: decodedInvoiceNumber });
+router.get("/createPdf/:invoiceNumber", async (req, res) => {
+    try {
+        const { invoiceNumber } = req.params;
+        const decodedInvoiceNumber = decodeURIComponent(invoiceNumber);
+        const invoice = await Invoice.findOne({ invoiceNumber: decodedInvoiceNumber });
 
-//         if (!invoice) {
-//             return res.status(404).json({ success: false, message: "Invoice not found" });
-//         }
+        if (!invoice) {
+            return res.status(404).json({ success: false, message: "Invoice not found" });
+        }
 
-//         const owner = await Business.findOne({ userId: invoice.userId });
+        const owner = await Business.findOne({ userId: invoice.userId });
 
-//         const date = new Date(invoice.createdAt).toLocaleDateString();
+        const date = new Date(invoice.createdAt).toLocaleDateString();
 
-//         const invoiceData = {
-//             invoice,
-//             owner,
-//             date
-//         }
+        const invoiceData = {
+            invoice,
+            owner,
+            date
+        }
 
-//         const tampletePath = path.join(process.cwd(), "templates", "pdfTemplate.ejs");
+        const tampletePath = path.join(process.cwd(), "templates", "pdfTemplate.ejs");
 
-//         const html = await ejs.renderFile(tampletePath, { invoiceData, logoUrl: process.env.LOGO_URL });
+        const html = await ejs.renderFile(tampletePath, { invoiceData, logoUrl: process.env.LOGO_URL });
 
-//         const broswer = await puppeteer.launch({
-//             headless: "new",
-//             args: ["--no-sandbox", "--disable-setuid-sandbox"]
-//         });
-//         const page = await broswer.newPage();
+        const broswer = await puppeteer.launch({
+            headless: "new",
+            args: ["--no-sandbox", "--disable-setuid-sandbox"]
+        });
+        const page = await broswer.newPage();
 
-//         await page.setContent(html, { waitUntil: "networkidle0" });
-//         await page.emulateMediaType("screen");
+        await page.setContent(html, { waitUntil: "networkidle0" });
+        await page.emulateMediaType("screen");
 
-//         const pdf = await page.pdf({
-//             format: "A4",
-//             landscape: false,
-//             printBackground: true,
-//             margin: { top: "10mm", bottom: "10mm", left: "10mm", right: "10mm" }
-//         });
+        const pdf = await page.pdf({
+            format: "A4",
+            landscape: false,
+            printBackground: true,
+            margin: { top: "10mm", bottom: "10mm", left: "10mm", right: "10mm" }
+        });
 
-//         await broswer.close();
+        await broswer.close();
 
-//         res.set({
-//             "Content-Type": "application/pdf",
-//             "Content-Disposition": `attachment; filename=invoice_${invoiceNumber}.pdf`
-//         });
+        res.set({
+            "Content-Type": "application/pdf",
+            "Content-Disposition": `attachment; filename=invoice_${invoiceNumber}.pdf`
+        });
 
-//         res.send(pdf);
-//     } catch (error) {
-//         console.log(error)
-//         res.status(500).json({ success: false, msg: "Error generating PDF" });
-//     }
-// });
+        res.send(pdf);
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ success: false, msg: "Error generating PDF" });
+    }
+});
 
 
 //I have change the puppeteer to Playwright because during the build on the free render, Render blocks the large download
 //And puppeteer try to download the full chromium browser 
 //than I used node-html-to-image and pdfkit it render the html on ejs than click its photo and make it's pdf
 
-router.get("/createPdf/:invoiceNumber", async (req, res) => {
-  try {
-    const invoiceNumber = decodeURIComponent(req.params.invoiceNumber);
+// router.get("/createPdf/:invoiceNumber", async (req, res) => {
+//   try {
+//     const invoiceNumber = decodeURIComponent(req.params.invoiceNumber);
 
-    const invoice = await Invoice.findOne({ invoiceNumber });
-    if (!invoice)
-      return res.status(404).json({ success: false, message: "Invoice not found" });
+//     const invoice = await Invoice.findOne({ invoiceNumber });
+//     if (!invoice)
+//       return res.status(404).json({ success: false, message: "Invoice not found" });
 
-    const owner = await Business.findOne({ userId: invoice.userId });
-    const date = new Date(invoice.createdAt).toLocaleDateString();
+//     const owner = await Business.findOne({ userId: invoice.userId });
+//     const date = new Date(invoice.createdAt).toLocaleDateString();
 
-    const invoiceData = { invoice, owner, date };
+//     const invoiceData = { invoice, owner, date };
 
-    const templatePath = path.join(process.cwd(), "templates", "pdfTemplate.ejs");
-    const html = await ejs.renderFile(templatePath, {
-      invoiceData,
-      logoUrl: process.env.LOGO_URL,
-    });
+//     const templatePath = path.join(process.cwd(), "templates", "pdfTemplate.ejs");
+//     const html = await ejs.renderFile(templatePath, {
+//       invoiceData,
+//       logoUrl: process.env.LOGO_URL,
+//     });
 
-    const imageBuffer = await nodeHtmlToImage({
-      html,
-      quality: 100,
-      type: "png",
-    });
+//     const imageBuffer = await nodeHtmlToImage({
+//       html,
+//       quality: 100,
+//       type: "png",
+//     });
 
-    const doc = new PDFDocument({ size: "A4" });
+//     const doc = new PDFDocument({ size: "A4" });
 
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader(
-      "Content-Disposition",
-      `attachment; filename=invoice_${invoiceNumber}.pdf`
-    );
+//     res.setHeader("Content-Type", "application/pdf");
+//     res.setHeader(
+//       "Content-Disposition",
+//       `attachment; filename=invoice_${invoiceNumber}.pdf`
+//     );
 
-    doc.pipe(res);
+//     doc.pipe(res);
 
-    doc.image(imageBuffer, 0, 0, { width: 595 });
-    doc.end();
+//     doc.image(imageBuffer, 0, 0, { width: 595 });
+//     doc.end();
 
-  } catch (error) {
-    console.error("PDF Generation Error:", error);
-    res.status(500).json({ success: false, message: "Error generating PDF" });
-  }
-});
+//   } catch (error) {
+//     console.error("PDF Generation Error:", error);
+//     res.status(500).json({ success: false, message: "Error generating PDF" });
+//   }
+// });
 
 export default router;
