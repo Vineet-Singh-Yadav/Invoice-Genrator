@@ -178,6 +178,10 @@ h1 {
   border-left: 1px solid black;
 }
 
+.sidebar-header {
+  display: none;
+}
+
 @media screen and (max-width: 768px) {
   .userInfo {
     display: none;
@@ -185,6 +189,10 @@ h1 {
 
   .userDropInfo {
     display: none;
+  }
+
+  .logo-mobile{
+    margin-left: 0 !important;
   }
 
   .header {
@@ -200,5 +208,10 @@ h1 {
     position: fixed;
     z-index: 1000;
     align-items: center;
+  }
+
+  .sidebar-header {
+    display: block;
+    
   }
 }
