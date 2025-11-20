@@ -9,6 +9,7 @@ import puppeteer from 'puppeteer';
 import PDFDocument from "pdfkit";
 import nodeHtmlToImage from "node-html-to-image";
 import pdf from "html-pdf-node";
+import fs from 'fs';
 
 const router = express.Router();
 
@@ -170,9 +171,13 @@ router.get("/createPdf/:invoiceNumber", async (req, res) => {
     const invoiceData = { invoice, owner, date };
 
     const templatePath = path.join(process.cwd(), "templates", "pdfTemplate.ejs");
+
+        const logoPath = path.join(process.cwd(), "public", "logo.png");
+    const logoBase64 = fs.readFileSync(logoPath, "base64");
+
     const html = await ejs.renderFile(templatePath, {
       invoiceData,
-      logoUrl: process.env.LOGO_URL || "https://invoice-genrator-ycsa.onrender.com/logo.png",
+      logoBase64
     });
 
     const file = { content: html };
@@ -181,8 +186,6 @@ router.get("/createPdf/:invoiceNumber", async (req, res) => {
       format: "A4",
       printBackground: true,
       margin: { top: "10mm", bottom: "10mm" },
-      preferCSSPageSize: true,
-      browserArgs: ["--no-sandbox", "--disable-setuid-sandbox"]
     };
 
     const pdfBuffer = await pdf.generatePdf(file, options);
