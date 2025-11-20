@@ -11,7 +11,6 @@ export default function Header({ setIsActive, openDropdown, setOpenDropdown }) {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({});
   const token = localStorage.getItem('token');
-  const [showSidebar, setShowSidebar] = useState(false);
 
   const sidebarDropdown = () =>{
     setShowSidebar(!showSidebar);
