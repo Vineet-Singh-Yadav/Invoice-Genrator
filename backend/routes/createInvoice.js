@@ -172,15 +172,17 @@ router.get("/createPdf/:invoiceNumber", async (req, res) => {
     const templatePath = path.join(process.cwd(), "templates", "pdfTemplate.ejs");
     const html = await ejs.renderFile(templatePath, {
       invoiceData,
-      logoUrl: process.env.LOGO_URL
+      logoUrl: process.env.LOGO_URL || "https://invoice-genrator-ycsa.onrender.com/logo.png",
     });
 
     const file = { content: html };
-   
+
     const options = {
       format: "A4",
       printBackground: true,
-      margin: { top: "10mm", bottom: "10mm" }
+      margin: { top: "10mm", bottom: "10mm" },
+      preferCSSPageSize: true,
+      browserArgs: ["--no-sandbox", "--disable-setuid-sandbox"]
     };
 
     const pdfBuffer = await pdf.generatePdf(file, options);
