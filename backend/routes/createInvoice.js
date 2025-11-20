@@ -146,7 +146,7 @@ router.get("/createPdf/:invoiceNumber", async (req, res) => {
     //     : puppeteer.executablePath()// use this path on local Machine because here it use the chrome which install in pupperteer package
 
     // });
-    const page = await broswer.newPage();
+    const page = await browser.newPage();
 
     await page.setContent(html, { waitUntil: "networkidle0" });
     await page.emulateMediaType("screen");
@@ -158,7 +158,7 @@ router.get("/createPdf/:invoiceNumber", async (req, res) => {
       margin: { top: "10mm", bottom: "10mm", left: "10mm", right: "10mm" }
     });
 
-    await broswer.close();
+    await browser.close();
 
     res.set({
       "Content-Type": "application/pdf",
