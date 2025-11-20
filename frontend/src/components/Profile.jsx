@@ -13,7 +13,6 @@ export default function Profile({setIsActive}) {
       if (getOwner) setProfile(getOwner);
     }
   
-    
     useEffect(() => {
       ownerDetails(); 
     }, [])
@@ -47,7 +46,9 @@ export default function Profile({setIsActive}) {
       const json = await respone.json();
       if(json.success){
       toast.success(json.message);
-      setIsActive('create_invoice');
+      // setIsActive('create_invoice');
+      localStorage.setItem("openCreate", "true");
+      window.location.reload();
       }
     } catch (error) {
       console.error("Error saving profile:", error);

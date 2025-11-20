@@ -3,11 +3,21 @@ import "../css/allInvoice.css";
 import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 
-export default function Invoice({setIsActive}) {
+export default function Invoice({ setIsActive }) {
 
   const [invoice, setInvoice] = useState([]);
   const token = localStorage.getItem('token')
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const shouldOpen = localStorage.getItem("openCreate");
+
+    if (shouldOpen === "true") {
+      setIsActive('create_invoice');
+      localStorage.removeItem("openCreate");
+    }
+  }, []);
+
 
   async function fetchInvoice() {
     try {
@@ -21,7 +31,7 @@ export default function Invoice({setIsActive}) {
       const json = await response.json();
       if (json.success) {
         setInvoice(json.invoices);
-      } 
+      }
     } catch (error) {
       toast.error("Something went wrong. Please try again!");
       console.log(error)
@@ -53,10 +63,10 @@ export default function Invoice({setIsActive}) {
           <p>Next Generation Invoicing.</p>
         </div>
         <div>
-          <button onClick={()=>setIsActive("create_invoice")}>Create Invoice</button>
+          <button onClick={() => setIsActive("create_invoice")}>Create Invoice</button>
         </div>
       </div>
- 
+
       <div className='table-div' >
         <table>
           <thead>
