@@ -119,22 +119,33 @@ router.get("/createPdf/:invoiceNumber", async (req, res) => {
 
     const html = await ejs.renderFile(tampletePath, { invoiceData, logoUrl: process.env.LOGO_URL });
 
-    const broswer = await puppeteer.launch({
-      // headless: "new",
-      // args: ["--no-sandbox", "--disable-setuid-sandbox"]
-
-      //to use docker to use chromium on render
+    const browser = await puppeteer.launch({
+      headless: true,
+      executablePath: "/usr/bin/chromium-browser",
       args: [
-        "--disable-setuid-sandbox--",
         "--no-sandbox",
-        '--single-process',
-        '--no-zygote'
+        "--disable-setuid-sandbox",
+        "--disable-gpu",
+        "--disable-dev-shm-usage",
       ],
-      eexecutablePath: process.env.NODE_ENV === 'production'//node_ENV tell that in which mode app is running prodction or development 
-        ? process.env.PUPPETEER_EXECUTABLE_PATH// use thiss path on render etc
-        : puppeteer.executablePath()// use this path on local Machine because here it use the chrome which install in pupperteer package
-
     });
+
+    // const broswer = await puppeteer.launch({
+    //   // headless: "new",
+    //   // args: ["--no-sandbox", "--disable-setuid-sandbox"]
+
+    //   //to use docker to use chromium on render
+    //   args: [
+    //     "--disable-setuid-sandbox--",
+    //     "--no-sandbox",
+    //     '--single-process',
+    //     '--no-zygote'
+    //   ],
+    //   eexecutablePath: process.env.NODE_ENV === 'production'//node_ENV tell that in which mode app is running prodction or development 
+    //     ? process.env.PUPPETEER_EXECUTABLE_PATH// use thiss path on render etc
+    //     : puppeteer.executablePath()// use this path on local Machine because here it use the chrome which install in pupperteer package
+
+    // });
     const page = await broswer.newPage();
 
     await page.setContent(html, { waitUntil: "networkidle0" });
