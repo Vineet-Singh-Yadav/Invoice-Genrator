@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify";
 import Sidebar from './Sidebar';
 
-export default function Header({ setIsActive, openDropdown, setOpenDropdown }) {
+export default function Header({ setIsActive, openDropdown, setOpenDropdown, showSidebar, setShowSidebar }) {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({});
   const token = localStorage.getItem('token');
