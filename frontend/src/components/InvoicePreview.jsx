@@ -68,7 +68,7 @@ export default function InvoicePreview() {
       });
       
       const blob = await response.blob();
-      saveAs(blob, `${encodedId}.pdf`);
+      saveAs(blob, `${finalId}.pdf`);
     } catch (error) {
       toast.error("Failed to download PDF!");
     }
