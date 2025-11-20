@@ -8,6 +8,7 @@ import ejs from 'ejs';
 import puppeteer from 'puppeteer';
 import PDFDocument from "pdfkit";
 import nodeHtmlToImage from "node-html-to-image";
+import pdf from "html-pdf-node";
 
 const router = express.Router();
 
@@ -79,99 +80,120 @@ router.get("/fetchInvoice", [authVerify], async (req, res) => {
 });
 
 
-router.get("/getInvoice/:invoiceNumber", async (req, res) => {
-  try {
-    const { invoiceNumber } = req.params;
-    const decodedInvoiceNumber = decodeURIComponent(invoiceNumber);
-    const invoice = await Invoice.findOne({ invoiceNumber: decodedInvoiceNumber });
+// router.get("/getInvoice/:invoiceNumber", async (req, res) => {
+//   try {
+//     const { invoiceNumber } = req.params;
+//     const decodedInvoiceNumber = decodeURIComponent(invoiceNumber);
+//     const invoice = await Invoice.findOne({ invoiceNumber: decodedInvoiceNumber });
 
-    if (!invoice) {
-      return res.status(404).json({ success: false, message: "Invoice not found" });
-    }
+//     if (!invoice) {
+//       return res.status(404).json({ success: false, message: "Invoice not found" });
+//     }
 
-    res.status(200).json({ success: true, invoice });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-});
+//     res.status(200).json({ success: true, invoice });
+//   } catch (error) {
+//     res.status(500).json({ success: false, message: error.message });
+//   }
+// });
+
+// router.get("/createPdf/:invoiceNumber", async (req, res) => {
+//   try {
+//     const { invoiceNumber } = req.params;
+//     const decodedInvoiceNumber = decodeURIComponent(invoiceNumber);
+//     const invoice = await Invoice.findOne({ invoiceNumber: decodedInvoiceNumber });
+
+//     if (!invoice) {
+//       return res.status(404).json({ success: false, message: "Invoice not found" });
+//     }
+
+//     const owner = await Business.findOne({ userId: invoice.userId });
+
+//     const date = new Date(invoice.createdAt).toLocaleDateString();
+
+//     const invoiceData = {
+//       invoice,
+//       owner,
+//       date
+//     }
+
+//     const tampletePath = path.join(process.cwd(), "templates", "pdfTemplate.ejs");
+
+//     const html = await ejs.renderFile(tampletePath, { invoiceData, logoUrl: process.env.LOGO_URL });
+
+//     const browser = await puppeteer.launch({
+//       headless: "new",
+//       args: ["--no-sandbox", "--disable-setuid-sandbox"]
+//     });
+//     const page = await browser.newPage();
+
+//     await page.setContent(html, { waitUntil: "networkidle0" });
+//     await page.emulateMediaType("screen");
+
+//     const pdf = await page.pdf({
+//       format: "A4",
+//       landscape: false,
+//       printBackground: true,
+//       margin: { top: "10mm", bottom: "10mm", left: "10mm", right: "10mm" }
+//     });
+
+//     await browser.close();
+
+//     res.set({
+//       "Content-Type": "application/pdf",
+//       "Content-Disposition": `attachment; filename=invoice_${invoiceNumber}.pdf`
+//     });
+
+//     res.send(pdf);
+//   } catch (error) {
+//     console.log(error)
+//     res.status(500).json({ success: false, msg: "Error generating PDF" });
+//   }
+// });
+
+
 
 router.get("/createPdf/:invoiceNumber", async (req, res) => {
   try {
     const { invoiceNumber } = req.params;
     const decodedInvoiceNumber = decodeURIComponent(invoiceNumber);
-    const invoice = await Invoice.findOne({ invoiceNumber: decodedInvoiceNumber });
 
+    const invoice = await Invoice.findOne({ invoiceNumber: decodedInvoiceNumber });
     if (!invoice) {
       return res.status(404).json({ success: false, message: "Invoice not found" });
     }
 
     const owner = await Business.findOne({ userId: invoice.userId });
-
     const date = new Date(invoice.createdAt).toLocaleDateString();
 
-    const invoiceData = {
-      invoice,
-      owner,
-      date
-    }
+    const invoiceData = { invoice, owner, date };
 
-    const tampletePath = path.join(process.cwd(), "templates", "pdfTemplate.ejs");
-
-    const html = await ejs.renderFile(tampletePath, { invoiceData, logoUrl: process.env.LOGO_URL });
-
-    const browser = await puppeteer.launch({
-      headless: true,
-      executablePath: "/usr/bin/chromium-browser",
-      args: [
-        "--no-sandbox",
-        "--disable-setuid-sandbox",
-        "--disable-gpu",
-        "--disable-dev-shm-usage",
-      ],
+    const templatePath = path.join(process.cwd(), "templates", "pdfTemplate.ejs");
+    const html = await ejs.renderFile(templatePath, {
+      invoiceData,
+      logoUrl: process.env.LOGO_URL
     });
 
-    // const broswer = await puppeteer.launch({
-    //   // headless: "new",
-    //   // args: ["--no-sandbox", "--disable-setuid-sandbox"]
-
-    //   //to use docker to use chromium on render
-    //   args: [
-    //     "--disable-setuid-sandbox--",
-    //     "--no-sandbox",
-    //     '--single-process',
-    //     '--no-zygote'
-    //   ],
-    //   eexecutablePath: process.env.NODE_ENV === 'production'//node_ENV tell that in which mode app is running prodction or development 
-    //     ? process.env.PUPPETEER_EXECUTABLE_PATH// use thiss path on render etc
-    //     : puppeteer.executablePath()// use this path on local Machine because here it use the chrome which install in pupperteer package
-
-    // });
-    const page = await browser.newPage();
-
-    await page.setContent(html, { waitUntil: "networkidle0" });
-    await page.emulateMediaType("screen");
-
-    const pdf = await page.pdf({
+    const file = { content: html };
+    const options = {
       format: "A4",
-      landscape: false,
       printBackground: true,
-      margin: { top: "10mm", bottom: "10mm", left: "10mm", right: "10mm" }
-    });
+      margin: { top: "10mm", bottom: "10mm" }
+    };
 
-    await browser.close();
+    const pdfBuffer = await pdf.generatePdf(file, options);
 
     res.set({
       "Content-Type": "application/pdf",
       "Content-Disposition": `attachment; filename=invoice_${invoiceNumber}.pdf`
     });
 
-    res.send(pdf);
-  } catch (error) {
-    console.log(error)
-    res.status(500).json({ success: false, msg: "Error generating PDF" });
+    res.send(pdfBuffer);
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ success: false, message: "PDF generation error" });
   }
 });
-
 
 //I have change the puppeteer to Playwright because during the build on the free render, Render blocks the large download
 //And puppeteer try to download the full chromium browser 
