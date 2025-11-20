@@ -96,106 +96,74 @@ router.get("/getInvoice/:invoiceNumber", async (req, res) => {
 });
 
 router.get("/createPdf/:invoiceNumber", async (req, res) => {
-    try {
-        const { invoiceNumber } = req.params;
-        const decodedInvoiceNumber = decodeURIComponent(invoiceNumber);
-        const invoice = await Invoice.findOne({ invoiceNumber: decodedInvoiceNumber });
+  try {
+    const { invoiceNumber } = req.params;
+    const decodedInvoiceNumber = decodeURIComponent(invoiceNumber);
+    const invoice = await Invoice.findOne({ invoiceNumber: decodedInvoiceNumber });
 
-        if (!invoice) {
-            return res.status(404).json({ success: false, message: "Invoice not found" });
-        }
-
-        const owner = await Business.findOne({ userId: invoice.userId });
-
-        const date = new Date(invoice.createdAt).toLocaleDateString();
-
-        const invoiceData = {
-            invoice,
-            owner,
-            date
-        }
-
-        const tampletePath = path.join(process.cwd(), "templates", "pdfTemplate.ejs");
-
-        const html = await ejs.renderFile(tampletePath, { invoiceData, logoUrl: process.env.LOGO_URL });
-
-        const broswer = await puppeteer.launch({
-            headless: "new",
-            args: ["--no-sandbox", "--disable-setuid-sandbox"]
-        });
-        const page = await broswer.newPage();
-
-        await page.setContent(html, { waitUntil: "networkidle0" });
-        await page.emulateMediaType("screen");
-
-        const pdf = await page.pdf({
-            format: "A4",
-            landscape: false,
-            printBackground: true,
-            margin: { top: "10mm", bottom: "10mm", left: "10mm", right: "10mm" }
-        });
-
-        await broswer.close();
-
-        res.set({
-            "Content-Type": "application/pdf",
-            "Content-Disposition": `attachment; filename=invoice_${invoiceNumber}.pdf`
-        });
-
-        res.send(pdf);
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({ success: false, msg: "Error generating PDF" });
+    if (!invoice) {
+      return res.status(404).json({ success: false, message: "Invoice not found" });
     }
+
+    const owner = await Business.findOne({ userId: invoice.userId });
+
+    const date = new Date(invoice.createdAt).toLocaleDateString();
+
+    const invoiceData = {
+      invoice,
+      owner,
+      date
+    }
+
+    const tampletePath = path.join(process.cwd(), "templates", "pdfTemplate.ejs");
+
+    const html = await ejs.renderFile(tampletePath, { invoiceData, logoUrl: process.env.LOGO_URL });
+
+    const broswer = await puppeteer.launch({
+      // headless: "new",
+      // args: ["--no-sandbox", "--disable-setuid-sandbox"]
+
+      //to use docker to use chromium on render
+      args: [
+        "--disable-setuid-sandbox--",
+        "--no-sandbox",
+        '--single-process',
+        '--no-zygote'
+      ],
+      eexecutablePath: process.env.NODE_ENV === 'production'//node_ENV tell that in which mode app is running prodction or development 
+        ? process.env.PUPPETEER_EXECUTABLE_PATH// use thiss path on render etc
+        : puppeteer.executablePath()// use this path on local Machine because here it use the chrome which install in pupperteer package
+
+    });
+    const page = await broswer.newPage();
+
+    await page.setContent(html, { waitUntil: "networkidle0" });
+    await page.emulateMediaType("screen");
+
+    const pdf = await page.pdf({
+      format: "A4",
+      landscape: false,
+      printBackground: true,
+      margin: { top: "10mm", bottom: "10mm", left: "10mm", right: "10mm" }
+    });
+
+    await broswer.close();
+
+    res.set({
+      "Content-Type": "application/pdf",
+      "Content-Disposition": `attachment; filename=invoice_${invoiceNumber}.pdf`
+    });
+
+    res.send(pdf);
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ success: false, msg: "Error generating PDF" });
+  }
 });
 
 
 //I have change the puppeteer to Playwright because during the build on the free render, Render blocks the large download
 //And puppeteer try to download the full chromium browser 
 //than I used node-html-to-image and pdfkit it render the html on ejs than click its photo and make it's pdf
-
-// router.get("/createPdf/:invoiceNumber", async (req, res) => {
-//   try {
-//     const invoiceNumber = decodeURIComponent(req.params.invoiceNumber);
-
-//     const invoice = await Invoice.findOne({ invoiceNumber });
-//     if (!invoice)
-//       return res.status(404).json({ success: false, message: "Invoice not found" });
-
-//     const owner = await Business.findOne({ userId: invoice.userId });
-//     const date = new Date(invoice.createdAt).toLocaleDateString();
-
-//     const invoiceData = { invoice, owner, date };
-
-//     const templatePath = path.join(process.cwd(), "templates", "pdfTemplate.ejs");
-//     const html = await ejs.renderFile(templatePath, {
-//       invoiceData,
-//       logoUrl: process.env.LOGO_URL,
-//     });
-
-//     const imageBuffer = await nodeHtmlToImage({
-//       html,
-//       quality: 100,
-//       type: "png",
-//     });
-
-//     const doc = new PDFDocument({ size: "A4" });
-
-//     res.setHeader("Content-Type", "application/pdf");
-//     res.setHeader(
-//       "Content-Disposition",
-//       `attachment; filename=invoice_${invoiceNumber}.pdf`
-//     );
-
-//     doc.pipe(res);
-
-//     doc.image(imageBuffer, 0, 0, { width: 595 });
-//     doc.end();
-
-//   } catch (error) {
-//     console.error("PDF Generation Error:", error);
-//     res.status(500).json({ success: false, message: "Error generating PDF" });
-//   }
-// });
 
 export default router;
