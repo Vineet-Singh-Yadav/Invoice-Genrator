@@ -10,17 +10,17 @@ import Items from './Items'
 
 export default function DashBoard() {
   const [isActive, setIsActive] = useState("invoice");
-
+  const [openDropdown, setOpenDropdown] = useState(false);
 
   return (
     <>
-      <Header setIsActive={setIsActive}/>
+      <Header setIsActive={setIsActive} setOpenDropdown={setOpenDropdown} openDropdown={openDropdown}/>
       <main>
         <div className='dashboard'>
-          <div className='sidebar'>
+          <div className='sidebar'onClick={()=>setOpenDropdown(false)} >
             <Sidebar setIsActive={setIsActive} />
           </div>
-          <div className='mainarea'>
+          <div className='mainarea' onClick={()=>setOpenDropdown(false)}>
             {isActive === "profile" && <Profile setIsActive={setIsActive}/>}
             {isActive === "invoice" && <Invoice setIsActive={setIsActive} />}
             {isActive === "create_invoice" && <CreateInvoice setIsActive={setIsActive} />}
@@ -28,7 +28,7 @@ export default function DashBoard() {
           </div>
         </div>
       </main>
-    </>
+    </> 
   )
 }
 

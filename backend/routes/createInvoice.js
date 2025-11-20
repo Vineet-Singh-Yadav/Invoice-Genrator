@@ -151,7 +151,9 @@ router.get("/fetchInvoice", [authVerify], async (req, res) => {
 // });
 
 
-
+//I have change the puppeteer to Playwright because during the build on the free render, Render blocks the large download
+//And puppeteer try to download the full chromium browser 
+//than I used html-pdf-node it don't use browser
 router.get("/createPdf/:invoiceNumber", async (req, res) => {
   try {
     const { invoiceNumber } = req.params;
@@ -174,6 +176,7 @@ router.get("/createPdf/:invoiceNumber", async (req, res) => {
     });
 
     const file = { content: html };
+   
     const options = {
       format: "A4",
       printBackground: true,
@@ -195,8 +198,5 @@ router.get("/createPdf/:invoiceNumber", async (req, res) => {
   }
 });
 
-//I have change the puppeteer to Playwright because during the build on the free render, Render blocks the large download
-//And puppeteer try to download the full chromium browser 
-//than I used node-html-to-image and pdfkit it render the html on ejs than click its photo and make it's pdf
 
 export default router;
